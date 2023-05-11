@@ -11,20 +11,22 @@ import Header from './components/Header';
 import {styles} from './styles';
 import {BarcodeFormat, useScanBarcodes} from 'vision-camera-code-scanner';
 import {Camera, useCameraDevices} from 'react-native-vision-camera';
-import {signClient} from '../../utils/walletConnect';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import FooterButton from '../../components/FooterButton';
 import {bottomSpace} from '../../utils/deviceHelpers';
 import {useNavigation} from '@react-navigation/native';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
+import {useWalletConnectContext} from '../../contexts';
 
 const WalletConnectScan = () => {
   const navigation =
     useNavigation<TNavigationProp<ERootStackRoutes.WalletConnectScan>>();
 
+  const {web3WalletClient} = useWalletConnectContext();
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasPermission, setHasPermission] = useState(false);
   const [textUri, setTexTUri] = useState<string>('');
-
   const devices = useCameraDevices();
   const device = devices.back;
 
@@ -46,15 +48,17 @@ const WalletConnectScan = () => {
   }, [navigation, barcodes, textUri]);
 
   const onProceed = useCallback(async () => {
-    if (textUri && signClient) {
-      try {
-        await signClient?.pair({uri: textUri});
-      } catch (e) {
-      } finally {
+    setIsLoading(true);
+    if (textUri && web3WalletClient) {
+      web3WalletClient?.core?.pairing?.pair({uri: textUri});
+      setTimeout(() => {
+        setIsLoading(false);
         navigation.goBack();
-      }
+      }, 600);
+    } else {
+      setIsLoading(false);
     }
-  }, [navigation, textUri]);
+  }, [web3WalletClient, navigation, textUri]);
 
   useEffect(() => {
     (async () => {
@@ -100,7 +104,7 @@ const WalletConnectScan = () => {
           <FooterButton
             style={styles.footerButton}
             title="Connect"
-            disabled={!textUri}
+            disabled={!textUri || isLoading}
             onPress={onProceed}
           />
           {Platform.OS === 'ios' && (

@@ -42,7 +42,6 @@ export type TUserWalletState = {
   selectedToken: TWallet | null;
   balanceDetailState: TDefaultRequestState<TBalanceData>;
   usdEquivalents: TUsdEquivalent[];
-  isConnectedWalletConnect: boolean;
   searchTokenList: string[];
   nonTransferableTokenList: string[];
 };

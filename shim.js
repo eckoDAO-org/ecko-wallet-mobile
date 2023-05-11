@@ -24,3 +24,7 @@ Object.assign(process.env, {NODE_ENV: isDev ? 'development' : 'production'});
 if (typeof localStorage !== 'undefined') {
   localStorage.debug = isDev ? '*' : '';
 }
+
+if (typeof BigInt === 'undefined') {
+  global.BigInt = require('big-integer');
+}

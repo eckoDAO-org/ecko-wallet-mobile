@@ -1,8 +1,8 @@
 import '@walletconnect/react-native-compat';
 import React, {useCallback, useEffect, useState} from 'react';
-import SignClient from '@walletconnect/sign-client';
 import Modal from '../components/Modal';
 import {
+  ActivityIndicator,
   Dimensions,
   ScrollView,
   StyleSheet,
@@ -26,12 +26,13 @@ import {getNetwork} from './networkHelpers';
 import {getSignRequest} from '../store/transfer/services';
 import {makeSelectAccounts} from '../store/userWallet/selectors';
 import {EDefaultNetwork} from '../screens/Networks/types';
-import {setIsConnectedWalletConnect} from '../store/userWallet';
-import {getSavedValue} from './storageHelplers';
 import {useShallowEqualSelector} from '../store/utils';
 import {setSendResult} from '../store/history';
 import WalletConnectHelpModal from '../components/WalletConnectHelpModal';
-import {WALLETCONNECT_PROJECT_ID, WALLETCONNECT_PROJECT_RELAY} from '@env';
+import {quickSign} from '../api/kadena/quickSign';
+import {formatJsonRpcError} from '@json-rpc-tools/utils/dist/cjs/format';
+import {defaultChainIds} from '../api/constants';
+import {useWalletConnectContext} from '../contexts';
 
 const JSONTreeTheme = {
   tree: {
@@ -62,34 +63,6 @@ const valueRenderer = (raw: string) => (
   <Text style={styles.jsonText}>{raw}</Text>
 );
 
-export let signClient: SignClient;
-
-type createParams = {
-  projectId?: string;
-  relayUrl?: string;
-};
-
-export const defaultWalletConnectParams = {
-  name: WALLETCONNECT_PROJECT_ID,
-  projectId: WALLETCONNECT_PROJECT_ID,
-  relayUrl: WALLETCONNECT_PROJECT_RELAY,
-  metadata: {
-    name: 'eckoWALLET',
-    description: 'eckoWALLET by eckoDEX',
-    url: 'https://swap.ecko.finance/',
-    icons: ['https://kaddex.com/Kaddex_icon.png'],
-  },
-};
-
-export const createSignClient = async (params?: createParams) => {
-  signClient = await SignClient.init({
-    name: params?.projectId || defaultWalletConnectParams.projectId,
-    projectId: params?.projectId || defaultWalletConnectParams.projectId,
-    relayUrl: params?.relayUrl || defaultWalletConnectParams.relayUrl,
-    metadata: defaultWalletConnectParams.metadata,
-  });
-};
-
 export const KDA_NAMESPACE = 'kadena';
 
 export const KDA_CHAINS = [
@@ -101,6 +74,9 @@ export const KDA_CHAINS = [
 const KDA_METHODS = {
   KDA_SIGN: 'kadena_sign',
   KDA_QUICK_SIGN: 'kadena_quicksign',
+  KDA_GET_ACCOUNTS_V1: 'kadena_getAccounts_v1',
+  KDA_SIGN_V1: 'kadena_sign_v1',
+  KDA_QUICK_SIGN_V1: 'kadena_quicksign_v1',
 };
 
 const KDX_METHODS = {
@@ -110,29 +86,25 @@ const KDX_METHODS = {
 };
 
 const KDA_EVENTS = {
+  ACCOUNT_CHANGED: 'account_changed',
   KDA_TRANSACTION_UPDATED: 'kadena_transaction_updated',
 };
 
-export default function WalletConnect() {
+export const useWalletConnect = () => {
+  const {web3WalletClient, isInitialized, setIsConnected} =
+    useWalletConnectContext();
+
   const dispatch = useDispatch();
 
   const isAuthorized = useSelector(makeSelectIsAuthorized);
   const accountsList = useShallowEqualSelector(makeSelectAccounts);
 
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isHelpVisible, setHelpIsVisible] = useState<boolean>(false);
   const [modalTitle, setModalTitle] = useState<string>('');
   const [modalContentType, setModalContentType] = useState<string | null>('');
   const [modalContentProps, setModalContentProps] = useState<any>({});
-
-  useEffect(() => {
-    getSavedValue('walletConnectParams', {}).then(savedParams => {
-      createSignClient(savedParams)
-        .then(() => setIsInitialized(true))
-        .catch(() => setIsInitialized(false));
-    });
-  }, []);
 
   const onSessionProposal = useCallback(proposal => {
     if (proposal) {
@@ -149,16 +121,47 @@ export default function WalletConnect() {
   const onSessionRequest = useCallback(async (requestEvent: any) => {
     const {topic, params} = requestEvent;
     const {request} = params;
-    const requestSession = signClient?.session.get(topic);
 
     switch (request.method) {
+      case KDA_METHODS.KDA_GET_ACCOUNTS_V1:
+        setTimeout(async () => {
+          try {
+            const sessions = web3WalletClient?.getActiveSessions();
+            const isActiveSession = sessions && sessions[topic];
+            if (isActiveSession) {
+              const sessionAccounts = sessions![
+                topic
+              ].namespaces?.kadena?.accounts?.map(account => ({
+                account,
+                publicKey: account.split(':')[2],
+                kadenaAccounts: [
+                  {
+                    name: `${account.split(':')[1]}:${account.split(':')[2]}`,
+                    contract: 'coin',
+                    chains: defaultChainIds,
+                  },
+                ],
+              }));
+              const response = formatJsonRpcResult(requestEvent.id, {
+                accounts: sessionAccounts || [],
+              });
+              await web3WalletClient?.respondSessionRequest({
+                topic,
+                response,
+              });
+            }
+          } catch (e) {}
+        }, 2000);
+        break;
       case KDA_METHODS.KDA_SIGN:
+      case KDA_METHODS.KDA_SIGN_V1:
       case KDA_METHODS.KDA_QUICK_SIGN:
+      case KDA_METHODS.KDA_QUICK_SIGN_V1:
       case KDX_METHODS.KDX_SIGN:
         setModalTitle('Sign');
         setModalContentProps({
           event: requestEvent,
-          session: requestSession,
+          topic,
         });
         setModalContentType('session_request');
         setIsVisible(true);
@@ -169,7 +172,7 @@ export default function WalletConnect() {
         setModalTitle('Send / Sign Transaction');
         setModalContentProps({
           event: requestEvent,
-          session: requestSession,
+          topic,
         });
         setModalContentType('session_request');
         setIsVisible(true);
@@ -219,28 +222,35 @@ export default function WalletConnect() {
   }, []);
 
   const onSessionDelete = useCallback(() => {
-    dispatch(setIsConnectedWalletConnect(false));
+    setIsConnected(false);
   }, []);
 
   useEffect(() => {
     try {
-      if (isInitialized && signClient) {
-        signClient?.on('session_proposal', onSessionProposal);
-        signClient?.on('session_request', onSessionRequest);
-        signClient?.on('session_delete', onSessionDelete);
-        signClient?.on('session_event', onSessionEvent);
+      if (isInitialized && web3WalletClient) {
+        web3WalletClient?.on('session_proposal', onSessionProposal);
+        web3WalletClient?.on('session_request', onSessionRequest);
+        web3WalletClient?.on('session_delete', onSessionDelete);
+        web3WalletClient?.events?.on('session_event', onSessionEvent);
         return () => {
-          signClient?.off('session_proposal', onSessionProposal);
-          signClient?.off('session_request', onSessionRequest);
-          signClient?.off('session_delete', onSessionDelete);
-          signClient?.off('session_event', onSessionEvent);
+          web3WalletClient?.off('session_proposal', onSessionProposal);
+          web3WalletClient?.off('session_request', onSessionRequest);
+          web3WalletClient?.off('session_delete', onSessionDelete);
+          web3WalletClient?.events?.off('session_event', onSessionEvent);
         };
       }
     } catch (e) {}
-  }, [isInitialized, onSessionProposal, onSessionRequest, onSessionDelete]);
+  }, [
+    isInitialized,
+    web3WalletClient,
+    onSessionProposal,
+    onSessionRequest,
+    onSessionDelete,
+  ]);
 
   const closeModal = useCallback(() => {
     setIsVisible(false);
+    setIsLoading(false);
     setTimeout(() => {
       setModalTitle('');
       setModalContentProps({});
@@ -253,14 +263,17 @@ export default function WalletConnect() {
   }, []);
 
   const onReject = useCallback(async () => {
+    setIsLoading(true);
     try {
       if (modalContentType === 'session_request') {
-        const {session, event} = modalContentProps;
+        const {topic, event} = modalContentProps;
         const {id} = event;
-        const {topic} = session;
 
-        const response = formatJsonRpcResult(id, {signedCmd: null});
-        await signClient?.respond({
+        const response = formatJsonRpcError(id, {
+          code: 5000,
+          message: 'User rejected.',
+        });
+        await web3WalletClient?.respondSessionRequest({
           topic,
           response,
         });
@@ -270,88 +283,164 @@ export default function WalletConnect() {
         const {proposal} = modalContentProps;
         const {id} = proposal;
 
-        await signClient?.reject({
+        await web3WalletClient?.rejectSession({
           id,
           reason: {
             message: 'User rejected.',
-            code: 1,
+            code: 5000,
           },
         });
 
         closeModal();
       }
     } catch (e) {
+      setIsLoading(false);
       setHelpIsVisible(true);
     }
-  }, [closeModal, modalContentProps, modalContentType]);
+  }, [web3WalletClient, closeModal, modalContentProps, modalContentType]);
 
   const onApprove = useCallback(async () => {
+    setIsLoading(true);
     try {
       if (modalContentType === 'session_request') {
-        const {session, event} = modalContentProps;
+        const {topic, event} = modalContentProps;
         const {
           id: eventId,
           params: {
-            request: {params: cmdValue},
+            request: {method, params: cmdValue},
           },
         } = event;
-        const {topic} = session;
 
         const foundAccount = (accountsList || []).find(
           (item: any) =>
             item.accountName === cmdValue?.sender ||
+            item.publicKey === cmdValue?.sender ||
             item.publicKey === cmdValue?.signingPubKey,
         );
-        const signResultData = await getSignRequest({
-          network: getNetwork(EDefaultNetwork.devnet),
-          instance: cmdValue.networkId,
-          version: cmdValue.networkVersion || '0.0',
-          sourceChainId: cmdValue.chainId || '2',
-          cmdValue: JSON.stringify(cmdValue),
-          publicKey: foundAccount?.publicKey || '',
-          signature: foundAccount?.privateKey || '',
-        });
 
-        const response = formatJsonRpcResult(eventId, {
-          signedCmd: signResultData,
-        });
-        await signClient?.respond({
-          topic,
-          response,
-        });
+        switch (method) {
+          case KDX_METHODS.KDX_SIGN:
+          case KDA_METHODS.KDA_SIGN:
+            {
+              const signResultData = await getSignRequest({
+                network: getNetwork(EDefaultNetwork.devnet),
+                instance: cmdValue.networkId,
+                version: cmdValue.networkVersion || '0.0',
+                sourceChainId: cmdValue.chainId || '2',
+                cmdValue: JSON.stringify(cmdValue),
+                publicKey: foundAccount?.publicKey || '',
+                signature: foundAccount?.privateKey || '',
+              });
+              const response = formatJsonRpcResult(eventId, {
+                status: 'success',
+                signedCmd: signResultData,
+              });
+              await web3WalletClient?.respondSessionRequest({
+                topic,
+                response,
+              });
+            }
+            break;
+          case KDA_METHODS.KDA_SIGN_V1:
+            {
+              const signResultData = await getSignRequest({
+                network: getNetwork(EDefaultNetwork.devnet),
+                instance: cmdValue.networkId,
+                version: cmdValue.networkVersion || '0.0',
+                sourceChainId: cmdValue.chainId || '2',
+                cmdValue: JSON.stringify({
+                  ...cmdValue,
+                  pactCode: cmdValue.code,
+                }),
+                publicKey: foundAccount?.publicKey || '',
+                signature: foundAccount?.privateKey || '',
+              });
+              const response = formatJsonRpcResult(eventId, {
+                chainId: cmdValue.chainId || '2',
+                body: signResultData,
+              });
+              await web3WalletClient?.respondSessionRequest({
+                topic,
+                response,
+              });
+            }
+            break;
+          case KDA_METHODS.KDA_QUICK_SIGN:
+            {
+              const quickSignData = quickSign(
+                cmdValue?.commandSigDatas,
+                foundAccount?.publicKey,
+                foundAccount?.privateKey,
+              );
+              const response = formatJsonRpcResult(eventId, {
+                status: 'success',
+                quickSignData,
+              });
+              await web3WalletClient?.respondSessionRequest({
+                topic,
+                response,
+              });
+            }
+            break;
+          case KDA_METHODS.KDA_QUICK_SIGN_V1:
+            {
+              const quickSignData = quickSign(
+                cmdValue?.commandSigDatas,
+                foundAccount?.publicKey,
+                foundAccount?.privateKey,
+              );
+              const response = formatJsonRpcResult(eventId, {
+                responses: quickSignData,
+              });
+              await web3WalletClient?.respondSessionRequest({
+                topic,
+                response,
+              });
+            }
+            break;
+          default:
+            break;
+        }
 
         closeModal();
       } else if (modalContentType === 'session_proposal') {
         const {proposal, selectedAccounts} = modalContentProps;
-        const {id, params} = proposal;
-        const {relays, requiredNamespaces} = params;
+        const {id} = proposal;
         const accounts: string[] = [];
-        requiredNamespaces[KDA_NAMESPACE].chains.forEach((chain: string) => {
+
+        KDA_CHAINS.forEach((chain: string) => {
           selectedAccounts.forEach((acc: TAccount) => {
-            accounts.push(`${chain}:${acc.accountName.replace(':', '**')}`);
+            accounts.push(`${chain}:${acc.publicKey}`);
           });
         });
-        const {acknowledged} = await signClient?.approve({
+        await web3WalletClient?.approveSession({
           id,
-          relayProtocol: relays[0].protocol,
           namespaces: {
             [KDA_NAMESPACE]: {
+              chains: KDA_CHAINS,
               accounts,
-              methods: requiredNamespaces[KDA_NAMESPACE].methods,
-              events: requiredNamespaces[KDA_NAMESPACE].events,
+              methods: Object.values(KDA_METHODS),
+              events: Object.values(KDA_EVENTS),
             },
           },
         });
-        await acknowledged();
 
-        setTimeout(() => dispatch(setIsConnectedWalletConnect(true)), 600);
+        setTimeout(() => setIsConnected(false), 600);
+        setTimeout(() => setIsConnected(true), 1200);
 
         closeModal();
       }
     } catch (e) {
+      setIsLoading(false);
       setHelpIsVisible(true);
     }
-  }, [accountsList, closeModal, modalContentType, modalContentProps]);
+  }, [
+    web3WalletClient,
+    accountsList,
+    closeModal,
+    modalContentType,
+    modalContentProps,
+  ]);
 
   const onSelectAccounts = useCallback(
     accounts => {
@@ -390,12 +479,27 @@ export default function WalletConnect() {
           </ScrollView>
         ) : null}
         <View style={styles.buttons}>
-          <TouchableOpacity onPress={onReject} style={styles.redButton}>
+          <TouchableOpacity
+            disabled={isLoading}
+            onPress={onReject}
+            style={styles.redButton}>
             <Text style={styles.buttonText}>{'Reject'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onApprove} style={styles.greenButton}>
+          <TouchableOpacity
+            disabled={
+              isLoading ||
+              (modalContentType === 'session_proposal' &&
+                (modalContentProps?.selectedAccounts || []).length === 0)
+            }
+            onPress={onApprove}
+            style={styles.greenButton}>
             <Text style={styles.buttonText}>{'Approve'}</Text>
           </TouchableOpacity>
+          {isLoading ? (
+            <View style={styles.loading}>
+              <ActivityIndicator size="small" color={MAIN_COLOR} />
+            </View>
+          ) : null}
         </View>
       </View>
       <Modal
@@ -407,7 +511,7 @@ export default function WalletConnect() {
       </Modal>
     </Modal>
   );
-}
+};
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -469,5 +573,11 @@ export const styles = StyleSheet.create({
   },
   helpModalStyle: {
     minHeight: windowHeight * 0.4 - 48,
+  },
+  loading: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 16,
   },
 });

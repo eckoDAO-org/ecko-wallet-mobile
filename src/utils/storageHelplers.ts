@@ -27,9 +27,9 @@ export function useAsyncStorage(key: string, initialValue?: any) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getStoredItem = useCallback(
-    async (keyParam: string, initialValueParam?: any) => {
+    (keyParam: string, initialValueParam?: any) => {
       try {
-        const item = await valueStorage.getString(keyParam);
+        const item = valueStorage.getString(keyParam);
         const value = item ? JSON.parse(item) : initialValueParam || null;
         setStoredValue(value);
       } catch (error) {}
@@ -39,7 +39,8 @@ export function useAsyncStorage(key: string, initialValue?: any) {
 
   useEffect(() => {
     setIsLoading(true);
-    getStoredItem(key, initialValue).finally(() => setIsLoading(false));
+    getStoredItem(key, initialValue);
+    setTimeout(() => setIsLoading(false), 600);
   }, [key, initialValue]);
 
   const setValue = useCallback(
@@ -57,12 +58,9 @@ export function useAsyncStorage(key: string, initialValue?: any) {
   return [storedValue, setValue, isLoading];
 }
 
-export const getSavedValue = async (
-  keyParam: string,
-  initialValueParam?: any,
-) => {
+export const getSavedValue = (keyParam: string, initialValueParam?: any) => {
   try {
-    const item = await valueStorage.getString(keyParam);
+    const item = valueStorage.getString(keyParam);
     return item ? JSON.parse(item) : initialValueParam || null;
   } catch (error) {
     return initialValueParam || null;

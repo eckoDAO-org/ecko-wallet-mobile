@@ -6,15 +6,15 @@ import FooterButton from '../../components/FooterButton';
 import Input from '../../components/Input';
 import {styles} from './styles';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import {
-  createSignClient,
-  defaultWalletConnectParams,
-} from '../../utils/walletConnect';
 import {getSavedValue, saveValue} from '../../utils/storageHelplers';
 import {walletConnectSchema} from '../../validation/walletConnectSchema';
 import {useNavigation} from '@react-navigation/native';
+import {useWalletConnectContext} from '../../contexts';
+import {defaultWalletConnectParams} from '../../contexts/WalletConnect';
 
 const WalletConnectSettings = () => {
+  const {initializeClient} = useWalletConnectContext();
+
   const navigation = useNavigation();
 
   const {
@@ -28,22 +28,21 @@ const WalletConnectSettings = () => {
   });
 
   useEffect(() => {
-    getSavedValue('walletConnectParams').then(params => {
-      setValue(
-        'projectId',
-        params?.projectId || defaultWalletConnectParams?.projectId,
-      );
-      setValue(
-        'relayUrl',
-        params?.relayUrl || defaultWalletConnectParams?.relayUrl,
-      );
-    });
+    const params = getSavedValue('walletConnectParams');
+    setValue(
+      'projectId',
+      params?.projectId || defaultWalletConnectParams?.projectId,
+    );
+    setValue(
+      'relayUrl',
+      params?.relayUrl || defaultWalletConnectParams?.relayUrl,
+    );
   }, []);
 
   const handlePressSave = useCallback(
     async (data: FieldValues) => {
       try {
-        await createSignClient(data);
+        await initializeClient(data);
         await saveValue('walletConnectParams', data);
         setTimeout(() => navigation.goBack(), 150);
       } catch (e) {

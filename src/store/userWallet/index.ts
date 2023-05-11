@@ -11,7 +11,6 @@ const initialState: TUserWalletState = {
   selectedToken: null,
   balanceDetailState: defaultRequestValues,
   usdEquivalents: [],
-  isConnectedWalletConnect: false,
   searchTokenList: [],
   nonTransferableTokenList: [],
 };
@@ -210,10 +209,6 @@ const userWallet = createSlice({
       state.usdEquivalents = payload;
     },
 
-    setIsConnectedWalletConnect: (state, {payload}) => {
-      state.isConnectedWalletConnect = payload;
-    },
-
     setSearchTokenList: (state, {payload}) => {
       state.searchTokenList = payload;
     },
@@ -246,7 +241,6 @@ export const {
   setUsdEquivalents,
   setSearchTokenList,
   setNonTransferableTokenList,
-  setIsConnectedWalletConnect,
   setInitialUserWalletState,
 } = userWallet.actions;
 

@@ -13,7 +13,7 @@ interface SignQueryParams extends DefaultQueryParams {
   signature: string;
 }
 
-const getNonceByPlatform = (platform?: 'macos' | 'ios' | 'android') => {
+const getNonceByPlatform = (platform?: string) => {
   switch (platform) {
     case 'macos':
       return `"XMDS-${new Date().toISOString()}"`;
@@ -69,7 +69,7 @@ export const getSign: (params: SignQueryParams) => Promise<any> = async ({
   const signedCmd = Pact.api.prepareExecCmd(
     keyPairs,
     getNonceByPlatform(Platform.OS),
-    signingCmd.pactCode,
+    signingCmd.pactCode || signingCmd.code,
     signingCmd.envData,
     meta,
     signingCmd.networkId,

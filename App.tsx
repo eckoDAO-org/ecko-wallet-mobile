@@ -9,9 +9,10 @@ import {makeSelectIsAuthorized} from './src/store/auth/selectors';
 import {persistor, store} from './src/store/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import Toast from 'react-native-toast-message';
-import WalletConnect from './src/utils/walletConnect';
 import LogoSvg from './src/assets/images/logo.svg';
 import JailMonkey from 'jail-monkey';
+import {WalletConnectProvider} from './src/contexts/WalletConnect';
+import {useWalletConnect} from './src/utils/walletConnect';
 
 const App = () => {
   const isAuthorized = useSelector(makeSelectIsAuthorized);
@@ -58,6 +59,8 @@ const App = () => {
     }
   }, []);
 
+  const walletConnectModal = useWalletConnect();
+
   if (JailMonkey.isJailBroken()) {
     return (
       <>
@@ -82,7 +85,7 @@ const App = () => {
       <NavigationContainer onReady={onReady} theme={appTheme}>
         <AppStack />
       </NavigationContainer>
-      <WalletConnect />
+      {walletConnectModal}
       <Toast />
     </>
   );
@@ -92,9 +95,11 @@ const AppContainer = () => {
   return (
     <Provider store={store}>
       <PactProvider>
-        <PersistGate loading={null} persistor={persistor}>
-          <App />
-        </PersistGate>
+        <WalletConnectProvider>
+          <PersistGate loading={null} persistor={persistor}>
+            <App />
+          </PersistGate>
+        </WalletConnectProvider>
       </PactProvider>
     </Provider>
   );

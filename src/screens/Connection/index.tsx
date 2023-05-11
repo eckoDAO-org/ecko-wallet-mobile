@@ -13,27 +13,30 @@ import {styles} from './styles';
 import {headerTabs} from './const';
 import PairingItem from './components/PairingItem';
 import SessionItem from './components/SessionItem';
-import {signClient} from '../../utils/walletConnect';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import {useSelector} from 'react-redux';
-import {makeSelectIsConnectedWalletConnect} from '../../store/userWallet/selectors';
 import WalletConnectInfoModal from '../../components/WalletConnectInfoModal';
 import Modal from '../../components/Modal';
+import {useWalletConnectContext} from '../../contexts';
 
 const Connection = () => {
   const navigation = useNavigation<TNavigationProp<ERootStackRoutes.Home>>();
+
+  const {web3WalletClient, isConnected: isWalletConnected} =
+    useWalletConnectContext();
 
   const [activeTab, setActiveTab] = useState(headerTabs[0].value);
 
   const isSessionsTab = useMemo(() => activeTab === 'sessions', [activeTab]);
 
   const [pairingRaws, setPairings] = useState<any[]>(
-    signClient?.pairing.getAll({active: true}) || [],
+    web3WalletClient?.core?.pairing.getPairings() || [],
   );
   const [sessionRaws, setSessions] = useState<any[]>(
-    signClient?.session.getAll({}) || [],
+    web3WalletClient?.getActiveSessions()
+      ? Object.values(web3WalletClient?.getActiveSessions())
+      : [],
   );
 
   const pairings = useMemo(
@@ -94,12 +97,12 @@ const Connection = () => {
             text: 'Delete',
             style: 'destructive',
             onPress: () => {
-              signClient
-                .disconnect({
+              web3WalletClient
+                ?.disconnectSession({
                   topic: item.topic,
                   reason: {
                     message: 'User disconnected.',
-                    code: 6000,
+                    code: 5000,
                   },
                 })
                 .then(() => {
@@ -123,7 +126,7 @@ const Connection = () => {
         ],
       );
     },
-    [pairingRaws, sessionRaws],
+    [web3WalletClient, pairingRaws, sessionRaws],
   );
 
   const onDeleteSession = useCallback(
@@ -144,24 +147,32 @@ const Connection = () => {
   const onRefresh = useCallback(() => {
     setIsRefreshing(true);
     setTimeout(() => {
-      setPairings(signClient?.pairing.getAll({active: true}) || []);
-      setSessions(signClient?.session.getAll({}) || []);
+      setPairings(web3WalletClient?.core?.pairing.getPairings() || []);
+      setSessions(
+        web3WalletClient?.getActiveSessions()
+          ? Object.values(web3WalletClient?.getActiveSessions())
+          : [],
+      );
       setIsRefreshing(false);
     }, 600);
-  }, []);
+  }, [web3WalletClient]);
 
   const isFocused = useIsFocused();
-  const isWalletConnected = useSelector(makeSelectIsConnectedWalletConnect);
+
   useEffect(() => {
     setTimeout(() => {
       setIsRefreshing(true);
       setTimeout(() => {
-        setPairings(signClient?.pairing.getAll({active: true}) || []);
-        setSessions(signClient?.session.getAll({}) || []);
+        setPairings(web3WalletClient?.core?.pairing.getPairings() || []);
+        setSessions(
+          web3WalletClient?.getActiveSessions()
+            ? Object.values(web3WalletClient?.getActiveSessions())
+            : [],
+        );
         setIsRefreshing(false);
-      }, 600);
+      }, 1200);
     }, 600);
-  }, [isFocused, isWalletConnected]);
+  }, [web3WalletClient, isFocused, isWalletConnected]);
 
   const setActiveTabFunc = useCallback((activeTabValue: string) => {
     setActiveTab(activeTabValue);

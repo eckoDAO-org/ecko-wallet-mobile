@@ -3,22 +3,31 @@ import {View, Text, Image, ActivityIndicator, Alert} from 'react-native';
 import Modal from '../../components/Modal';
 import {TTransactionDetailsModalProps} from './types';
 import {styles} from './styles';
-import {KDA_NAMESPACE, signClient} from '../../utils/walletConnect';
+import {KDA_NAMESPACE} from '../../utils/walletConnect';
 import ListItem from '../../components/ListItem';
 import {truncate} from '../../utils/stringHelpers';
 import {MAIN_COLOR} from '../../constants/styles';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import TrashEmptySvg from '../../assets/images/trash-empty.svg';
+import {useWalletConnectContext} from '../../contexts';
 
 const SessionDetailsModal: FC<TTransactionDetailsModalProps> = React.memo(
   ({details, toggle, onDelete, isVisible}) => {
+    const {web3WalletClient} = useWalletConnectContext();
+
     const [updatedDate] = useState<Date>(new Date());
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const session = useMemo(
-      () => signClient?.session.values.find(s => s.topic === details.topic),
-      [details],
-    );
+    const session = useMemo(() => {
+      if (details?.topic) {
+        const sessions = web3WalletClient?.getActiveSessions();
+        if (sessions && sessions[details.topic]) {
+          return sessions[details.topic];
+        }
+      }
+      return null;
+    }, [details, web3WalletClient]);
+
     const expiryDate = useMemo(
       () => (session ? new Date(session.expiry * 1000) : null),
       [session],
@@ -44,11 +53,11 @@ const SessionDetailsModal: FC<TTransactionDetailsModalProps> = React.memo(
               setIsLoading(true);
               if (details.topic) {
                 try {
-                  await signClient?.disconnect({
+                  await web3WalletClient?.disconnectSession({
                     topic: details.topic,
                     reason: {
                       message: 'User disconnected.',
-                      code: 6000,
+                      code: 5000,
                     },
                   });
                   toggle();
@@ -83,27 +92,11 @@ const SessionDetailsModal: FC<TTransactionDetailsModalProps> = React.memo(
           title: `Review ${KDA_NAMESPACE} Permissions`,
           namespace: {
             chains: modifiedChains.map(chainId => {
-              const extensionMethods: any[] = [];
-              const extensionEvents: any[] = [];
-              session.namespaces[KDA_NAMESPACE]?.extension?.map(
-                ({accounts, methods, events}) => {
-                  accounts.forEach(account => {
-                    const [type, chain] = account.split(':');
-                    const internalChainId = `${type}:${chain}`;
-                    if (modifiedChains.includes(internalChainId)) {
-                      extensionMethods.push(...methods);
-                      extensionEvents.push(...events);
-                    }
-                  });
-                },
-              );
               const allMethods = [
                 ...(session.namespaces[KDA_NAMESPACE]?.methods || []),
-                ...extensionMethods,
               ];
               const allEvents = [
                 ...(session.namespaces[KDA_NAMESPACE]?.events || []),
-                ...extensionEvents,
               ];
               return {
                 name: chainId,

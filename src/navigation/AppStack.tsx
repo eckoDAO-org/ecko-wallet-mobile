@@ -11,6 +11,7 @@ const Stack = createNativeStackNavigator<TRootStackParamList>();
 
 const AppStack = () => {
   const isAuthorized = useSelector(makeSelectIsAuthorized);
+
   return (
     <>
       <Stack.Navigator

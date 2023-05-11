@@ -29,11 +29,6 @@ export const makeSelectSearchTokenList = createSelector(
   state => state.searchTokenList,
 );
 
-export const makeSelectIsConnectedWalletConnect = createSelector(
-  selectedState,
-  state => state.isConnectedWalletConnect,
-);
-
 export const makeSelectSelectedToken = createSelector(
   selectedState,
   state => state.selectedToken,
