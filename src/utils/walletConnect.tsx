@@ -57,10 +57,10 @@ const JSONTreeTheme = {
 };
 
 const labelRenderer = (raw: string) => (
-  <Text style={styles.jsonLabel}>{raw}</Text>
+    <Text style={styles.jsonLabel}>{raw}</Text>
 );
 const valueRenderer = (raw: string) => (
-  <Text style={styles.jsonText}>{raw}</Text>
+    <Text style={styles.jsonText}>{raw}</Text>
 );
 
 export const KDA_NAMESPACE = 'kadena';
@@ -92,7 +92,7 @@ const KDA_EVENTS = {
 
 export const useWalletConnect = () => {
   const {web3WalletClient, isInitialized, setIsConnected} =
-    useWalletConnectContext();
+      useWalletConnectContext();
 
   const dispatch = useDispatch();
 
@@ -118,70 +118,97 @@ export const useWalletConnect = () => {
     }
   }, []);
 
-  const onSessionRequest = useCallback(async (requestEvent: any) => {
-    const {topic, params} = requestEvent;
-    const {request} = params;
+  const onSessionRequest = useCallback(
+      async (requestEvent: any) => {
+        const {topic, params} = requestEvent;
+        const {request} = params;
 
-    switch (request.method) {
-      case KDA_METHODS.KDA_GET_ACCOUNTS_V1:
-        setTimeout(async () => {
-          try {
-            const sessions = web3WalletClient?.getActiveSessions();
-            const isActiveSession = sessions && sessions[topic];
-            if (isActiveSession) {
-              const sessionAccounts = sessions![
-                topic
-              ].namespaces?.kadena?.accounts?.map(account => ({
-                account,
-                publicKey: account.split(':')[2],
-                kadenaAccounts: [
-                  {
-                    name: `${account.split(':')[1]}:${account.split(':')[2]}`,
-                    contract: 'coin',
-                    chains: defaultChainIds,
-                  },
-                ],
-              }));
-              const response = formatJsonRpcResult(requestEvent.id, {
-                accounts: sessionAccounts || [],
+        switch (request.method) {
+          case KDA_METHODS.KDA_GET_ACCOUNTS_V1:
+          {
+            const getAccounts = async () => {
+              const sessions = web3WalletClient?.getActiveSessions();
+              console.log('onSessionRequest', 'KDA_GET_ACCOUNTS_V1');
+              const isActiveSession = sessions && sessions[topic];
+              if (isActiveSession) {
+                const sessionAccounts = sessions![
+                    topic
+                    ].namespaces?.kadena?.accounts?.map(account => ({
+                  account,
+                  publicKey: account.split(':')[2],
+                  kadenaAccounts: [
+                    {
+                      name: `${account.split(':')[1]}:${account.split(':')[2]}`,
+                      contract: 'coin',
+                      chains: defaultChainIds,
+                    },
+                  ],
+                }));
+                const response = formatJsonRpcResult(requestEvent.id, {
+                  accounts: sessionAccounts || [],
+                });
+                await web3WalletClient?.respondSessionRequest({
+                  topic,
+                  response,
+                });
+              }
+            };
+            try {
+              await new Promise((resolve, reject) => {
+                setTimeout(async () => {
+                  try {
+                    await getAccounts();
+                    resolve(true);
+                  } catch (innerError) {
+                    reject(innerError);
+                  }
+                }, 300);
               });
-              await web3WalletClient?.respondSessionRequest({
-                topic,
-                response,
+            } catch (e) {
+              await new Promise((resolve, reject) => {
+                setTimeout(async () => {
+                  try {
+                    await getAccounts();
+                    resolve(true);
+                  } catch (innerError) {
+                    reject(innerError);
+                  }
+                }, 1200);
               });
             }
-          } catch (e) {}
-        }, 2000);
-        break;
-      case KDA_METHODS.KDA_SIGN:
-      case KDA_METHODS.KDA_SIGN_V1:
-      case KDA_METHODS.KDA_QUICK_SIGN:
-      case KDA_METHODS.KDA_QUICK_SIGN_V1:
-      case KDX_METHODS.KDX_SIGN:
-        setModalTitle('Sign');
-        setModalContentProps({
-          event: requestEvent,
-          topic,
-        });
-        setModalContentType('session_request');
-        setIsVisible(true);
-        break;
+          }
+            break;
+          case KDA_METHODS.KDA_SIGN:
+          case KDA_METHODS.KDA_SIGN_V1:
+          case KDA_METHODS.KDA_QUICK_SIGN:
+          case KDA_METHODS.KDA_QUICK_SIGN_V1:
+          case KDX_METHODS.KDX_SIGN:
+            setModalTitle('Sign');
+            setModalContentProps({
+              event: requestEvent,
+              topic,
+            });
+            setModalContentType('session_request');
+            setIsVisible(true);
+            break;
 
-      case KDX_METHODS.KDX_SEND_TRANSACTION:
-      case KDX_METHODS.KDX_SIGN_TRANSACTION:
-        setModalTitle('Send / Sign Transaction');
-        setModalContentProps({
-          event: requestEvent,
-          topic,
-        });
-        setModalContentType('session_request');
-        setIsVisible(true);
-        break;
+          case KDX_METHODS.KDX_SEND_TRANSACTION:
+          case KDX_METHODS.KDX_SIGN_TRANSACTION:
+            setModalTitle('Send / Sign Transaction');
+            setModalContentProps({
+              event: requestEvent,
+              topic,
+            });
+            setModalContentType('session_request');
+            setIsVisible(true);
+            break;
 
-      default:
-        break;
-    }
-  }, []);
+          default:
+            break;
+        }
+      },
+      [web3WalletClient],
+  );
 
   const onSessionEvent = useCallback(async (sessionEvent: any) => {
     try {
@@ -189,31 +216,31 @@ export const useWalletConnect = () => {
       const {event} = params;
       switch (event?.name) {
         case KDA_EVENTS.KDA_TRANSACTION_UPDATED:
-          {
-            const {params: transactionDetail} = event;
-            dispatch(
+        {
+          const {params: transactionDetail} = event;
+          dispatch(
               setSendResult({
                 ...transactionDetail,
                 coinShortName: '',
                 amount: 0,
                 requestKey: transactionDetail.reqKey,
                 status:
-                  transactionDetail?.result?.status === 'success' ||
-                  transactionDetail?.result?.error?.message?.includes(
-                    'resumePact: pact completed:',
-                  )
-                    ? 'success'
-                    : transactionDetail?.result?.status === 'failure'
-                    ? 'failure'
-                    : 'pending',
+                    transactionDetail?.result?.status === 'success' ||
+                    transactionDetail?.result?.error?.message?.includes(
+                        'resumePact: pact completed:',
+                    )
+                        ? 'success'
+                        : transactionDetail?.result?.status === 'failure'
+                            ? 'failure'
+                            : 'pending',
                 createdTime: new Date().toISOString(),
                 sender: '',
                 sourceChainId: '',
                 receiver: '',
                 targetChainId: '',
               }),
-            );
-          }
+          );
+        }
           break;
         default:
           break;
@@ -312,91 +339,91 @@ export const useWalletConnect = () => {
         } = event;
 
         const foundAccount = (accountsList || []).find(
-          (item: any) =>
-            item.accountName === cmdValue?.sender ||
-            item.publicKey === cmdValue?.sender ||
-            item.publicKey === cmdValue?.signingPubKey,
+            (item: any) =>
+                item.accountName === cmdValue?.sender ||
+                item.publicKey === cmdValue?.sender ||
+                item.publicKey === cmdValue?.signingPubKey,
         );
 
         switch (method) {
           case KDX_METHODS.KDX_SIGN:
           case KDA_METHODS.KDA_SIGN:
-            {
-              const signResultData = await getSignRequest({
-                network: getNetwork(EDefaultNetwork.devnet),
-                instance: cmdValue.networkId,
-                version: cmdValue.networkVersion || '0.0',
-                sourceChainId: cmdValue.chainId || '2',
-                cmdValue: JSON.stringify(cmdValue),
-                publicKey: foundAccount?.publicKey || '',
-                signature: foundAccount?.privateKey || '',
-              });
-              const response = formatJsonRpcResult(eventId, {
-                status: 'success',
-                signedCmd: signResultData,
-              });
-              await web3WalletClient?.respondSessionRequest({
-                topic,
-                response,
-              });
-            }
+          {
+            const signResultData = await getSignRequest({
+              network: getNetwork(EDefaultNetwork.devnet),
+              instance: cmdValue.networkId,
+              version: cmdValue.networkVersion || '0.0',
+              sourceChainId: cmdValue.chainId || '2',
+              cmdValue: JSON.stringify(cmdValue),
+              publicKey: foundAccount?.publicKey || '',
+              signature: foundAccount?.privateKey || '',
+            });
+            const response = formatJsonRpcResult(eventId, {
+              status: 'success',
+              signedCmd: signResultData,
+            });
+            await web3WalletClient?.respondSessionRequest({
+              topic,
+              response,
+            });
+          }
             break;
           case KDA_METHODS.KDA_SIGN_V1:
-            {
-              const signResultData = await getSignRequest({
-                network: getNetwork(EDefaultNetwork.devnet),
-                instance: cmdValue.networkId,
-                version: cmdValue.networkVersion || '0.0',
-                sourceChainId: cmdValue.chainId || '2',
-                cmdValue: JSON.stringify({
-                  ...cmdValue,
-                  pactCode: cmdValue.code,
-                }),
-                publicKey: foundAccount?.publicKey || '',
-                signature: foundAccount?.privateKey || '',
-              });
-              const response = formatJsonRpcResult(eventId, {
-                chainId: cmdValue.chainId || '2',
-                body: signResultData,
-              });
-              await web3WalletClient?.respondSessionRequest({
-                topic,
-                response,
-              });
-            }
+          {
+            const signResultData = await getSignRequest({
+              network: getNetwork(EDefaultNetwork.devnet),
+              instance: cmdValue.networkId,
+              version: cmdValue.networkVersion || '0.0',
+              sourceChainId: cmdValue.chainId || '2',
+              cmdValue: JSON.stringify({
+                ...cmdValue,
+                pactCode: cmdValue.code,
+              }),
+              publicKey: foundAccount?.publicKey || '',
+              signature: foundAccount?.privateKey || '',
+            });
+            const response = formatJsonRpcResult(eventId, {
+              chainId: cmdValue.chainId || '2',
+              body: signResultData,
+            });
+            await web3WalletClient?.respondSessionRequest({
+              topic,
+              response,
+            });
+          }
             break;
           case KDA_METHODS.KDA_QUICK_SIGN:
-            {
-              const quickSignData = quickSign(
+          {
+            const quickSignData = quickSign(
                 cmdValue?.commandSigDatas,
                 foundAccount?.publicKey,
                 foundAccount?.privateKey,
-              );
-              const response = formatJsonRpcResult(eventId, {
-                status: 'success',
-                quickSignData,
-              });
-              await web3WalletClient?.respondSessionRequest({
-                topic,
-                response,
-              });
-            }
+            );
+            const response = formatJsonRpcResult(eventId, {
+              status: 'success',
+              quickSignData,
+            });
+            await web3WalletClient?.respondSessionRequest({
+              topic,
+              response,
+            });
+          }
             break;
           case KDA_METHODS.KDA_QUICK_SIGN_V1:
-            {
-              const quickSignData = quickSign(
+          {
+            const quickSignData = quickSign(
                 cmdValue?.commandSigDatas,
                 foundAccount?.publicKey,
                 foundAccount?.privateKey,
-              );
-              const response = formatJsonRpcResult(eventId, {
-                responses: quickSignData,
-              });
-              await web3WalletClient?.respondSessionRequest({
-                topic,
-                response,
-              });
-            }
+            );
+            const response = formatJsonRpcResult(eventId, {
+              responses: quickSignData,
+            });
+            await web3WalletClient?.respondSessionRequest({
+              topic,
+              response,
+            });
+          }
             break;
           default:
             break;
@@ -443,73 +470,73 @@ export const useWalletConnect = () => {
   ]);
 
   const onSelectAccounts = useCallback(
-    accounts => {
-      setModalContentProps({
-        ...modalContentProps,
-        selectedAccounts: accounts,
-      });
-    },
-    [modalContentProps],
+      accounts => {
+        setModalContentProps({
+          ...modalContentProps,
+          selectedAccounts: accounts,
+        });
+      },
+      [modalContentProps],
   );
 
   if (!isAuthorized) {
     return null;
   }
   return (
-    <Modal isVisible={isVisible} close={closeModal} title={modalTitle || ''}>
-      <View style={styles.content}>
-        {modalContentType === 'session_proposal' ? (
-          <WalletConnectAccountSelector onSelectAccounts={onSelectAccounts} />
-        ) : null}
-        {modalContentType === 'session_request' ? (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-            style={styles.jsonScroll}
-            contentContainerStyle={styles.jsonContent}>
-            <JSONTree
-              data={modalContentProps?.event?.params || {}}
-              theme={JSONTreeTheme as any}
-              invertTheme={false}
-              hideRoot={true}
-              labelRenderer={labelRenderer as any}
-              valueRenderer={valueRenderer as any}
-            />
-          </ScrollView>
-        ) : null}
-        <View style={styles.buttons}>
-          <TouchableOpacity
-            disabled={isLoading}
-            onPress={onReject}
-            style={styles.redButton}>
-            <Text style={styles.buttonText}>{'Reject'}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            disabled={
-              isLoading ||
-              (modalContentType === 'session_proposal' &&
-                (modalContentProps?.selectedAccounts || []).length === 0)
-            }
-            onPress={onApprove}
-            style={styles.greenButton}>
-            <Text style={styles.buttonText}>{'Approve'}</Text>
-          </TouchableOpacity>
-          {isLoading ? (
-            <View style={styles.loading}>
-              <ActivityIndicator size="small" color={MAIN_COLOR} />
-            </View>
+      <Modal isVisible={isVisible} close={closeModal} title={modalTitle || ''}>
+        <View style={styles.content}>
+          {modalContentType === 'session_proposal' ? (
+              <WalletConnectAccountSelector onSelectAccounts={onSelectAccounts} />
           ) : null}
+          {modalContentType === 'session_request' ? (
+              <ScrollView
+                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}
+                  style={styles.jsonScroll}
+                  contentContainerStyle={styles.jsonContent}>
+                <JSONTree
+                    data={modalContentProps?.event?.params || {}}
+                    theme={JSONTreeTheme as any}
+                    invertTheme={false}
+                    hideRoot={true}
+                    labelRenderer={labelRenderer as any}
+                    valueRenderer={valueRenderer as any}
+                />
+              </ScrollView>
+          ) : null}
+          <View style={styles.buttons}>
+            <TouchableOpacity
+                disabled={isLoading}
+                onPress={onReject}
+                style={styles.redButton}>
+              <Text style={styles.buttonText}>{'Reject'}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                disabled={
+                    isLoading ||
+                    (modalContentType === 'session_proposal' &&
+                        (modalContentProps?.selectedAccounts || []).length === 0)
+                }
+                onPress={onApprove}
+                style={styles.greenButton}>
+              <Text style={styles.buttonText}>{'Approve'}</Text>
+            </TouchableOpacity>
+            {isLoading ? (
+                <View style={styles.loading}>
+                  <ActivityIndicator size="small" color={MAIN_COLOR} />
+                </View>
+            ) : null}
+          </View>
         </View>
-      </View>
-      <Modal
-        isVisible={isHelpVisible}
-        close={closeHelpModal}
-        contentStyle={styles.helpModalStyle}
-        title="WalletConnect Help">
-        <WalletConnectHelpModal onConfirm={closeHelpModal} />
+        <Modal
+            isVisible={isHelpVisible}
+            close={closeHelpModal}
+            contentStyle={styles.helpModalStyle}
+            title="WalletConnect Help">
+          <WalletConnectHelpModal onConfirm={closeHelpModal} />
+        </Modal>
       </Modal>
-    </Modal>
   );
 };
 
