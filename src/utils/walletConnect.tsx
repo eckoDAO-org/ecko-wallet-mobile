@@ -33,6 +33,7 @@ import {quickSign} from '../api/kadena/quickSign';
 import {formatJsonRpcError} from '@json-rpc-tools/utils/dist/cjs/format';
 import {defaultChainIds} from '../api/constants';
 import {useWalletConnectContext} from '../contexts';
+import {makeSelectActiveNetwork} from '../store/networks/selectors';
 
 const JSONTreeTheme = {
   tree: {
@@ -98,6 +99,7 @@ export const useWalletConnect = () => {
 
   const isAuthorized = useSelector(makeSelectIsAuthorized);
   const accountsList = useShallowEqualSelector(makeSelectAccounts);
+  const selectedNetwork = useShallowEqualSelector(makeSelectActiveNetwork);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -131,19 +133,26 @@ export const useWalletConnect = () => {
               console.log('onSessionRequest', 'KDA_GET_ACCOUNTS_V1');
               const isActiveSession = sessions && sessions[topic];
               if (isActiveSession) {
-                const sessionAccounts = sessions![
+                const walletConnectAccounts = sessions![
                     topic
-                    ].namespaces?.kadena?.accounts?.map(account => ({
-                  account,
-                  publicKey: account.split(':')[2],
-                  kadenaAccounts: [
-                    {
-                      name: `${account.split(':')[1]}:${account.split(':')[2]}`,
-                      contract: 'coin',
-                      chains: defaultChainIds,
-                    },
-                  ],
-                }));
+                    ].namespaces?.kadena?.accounts?.filter(acc =>
+                    acc.includes(getNetwork(selectedNetwork.network)),
+                );
+                const sessionAccounts = walletConnectAccounts?.map(account => {
+                  const publicKey = account.split(':')[2];
+                  const cleanAccount = `k:${publicKey}`;
+                  return {
+                    account,
+                    publicKey,
+                    kadenaAccounts: [
+                      {
+                        name: cleanAccount,
+                        contract: 'coin',
+                        chains: defaultChainIds,
+                      },
+                    ],
+                  };
+                });
                 const response = formatJsonRpcResult(requestEvent.id, {
                   accounts: sessionAccounts || [],
                 });
@@ -207,7 +216,7 @@ export const useWalletConnect = () => {
             break;
         }
       },
-      [web3WalletClient],
+      [web3WalletClient, selectedNetwork],
   );
 
   const onSessionEvent = useCallback(async (sessionEvent: any) => {
@@ -350,7 +359,9 @@ export const useWalletConnect = () => {
           case KDA_METHODS.KDA_SIGN:
           {
             const signResultData = await getSignRequest({
-              network: getNetwork(EDefaultNetwork.devnet),
+              network: getNetwork(
+                  selectedNetwork?.network || EDefaultNetwork.devnet,
+              ),
               instance: cmdValue.networkId,
               version: cmdValue.networkVersion || '0.0',
               sourceChainId: cmdValue.chainId || '2',
@@ -371,7 +382,9 @@ export const useWalletConnect = () => {
           case KDA_METHODS.KDA_SIGN_V1:
           {
             const signResultData = await getSignRequest({
-              network: getNetwork(EDefaultNetwork.devnet),
+              network: getNetwork(
+                  selectedNetwork?.network || EDefaultNetwork.devnet,
+              ),
               instance: cmdValue.networkId,
               version: cmdValue.networkVersion || '0.0',
               sourceChainId: cmdValue.chainId || '2',
@@ -462,6 +475,7 @@ export const useWalletConnect = () => {
       setHelpIsVisible(true);
     }
   }, [
+    selectedNetwork,
     web3WalletClient,
     accountsList,
     closeModal,
