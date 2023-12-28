@@ -74,7 +74,7 @@ export const PactProvider: FC = ({children}) => {
   const getNetworkGasData = useCallback(async () => {
     try {
       let response = await axios.get(
-        `${KADDEX_API_URL}/api/mempool/getgasdata`,
+        `${KADDEX_API_URL}/mempool/get-gas-data`,
         {
           params: {
             chain: '2',
