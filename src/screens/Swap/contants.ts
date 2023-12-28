@@ -8,6 +8,10 @@ export const swapTokens = [
     tokenName: 'KDX',
   },
   {
+    tokenAddress: 'n_b742b4e9c600892af545afb408326e82a6c0c6ed.zUSD',
+    tokenName: 'zUSD',
+  },
+  {
     tokenAddress: 'runonflux.flux',
     tokenName: 'FLUX',
   },

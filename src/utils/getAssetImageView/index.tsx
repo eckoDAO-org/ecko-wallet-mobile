@@ -147,6 +147,13 @@ export const getAssetImageView = (tokenAddress: string, size = 40) => {
           <JdeIcon height={size} width={size} />
         </View>
       );
+    case 'n_b742b4e9c600892af545afb408326e82a6c0c6ed.zUSD':
+      return (
+        <Image
+          source={require('../../assets/images/zUSD.png')}
+          style={[styles.image, {width: size, height: size}]}
+        />
+      );
     default:
       return (
         <View style={[styles.image, {width: size, height: size}]}>
