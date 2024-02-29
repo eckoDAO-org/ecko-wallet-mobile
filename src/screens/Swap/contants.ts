@@ -67,4 +67,8 @@ export const swapTokens = [
     tokenAddress: 'free.docu',
     tokenName: 'DOC',
   },
+  {
+    tokenAddress: 'free.cyberfly_token',
+    tokenName: 'CFLY',
+  },
 ];
