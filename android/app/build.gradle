@@ -131,6 +131,10 @@ def reactNativeArchitectures() {
     return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
 
+def keystoreConfigFile = rootProject.file("keystore-config.properties")
+def keystoreConfig = new Properties()
+keystoreConfig.load(new FileInputStream(keystoreConfigFile))
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -140,8 +144,8 @@ android {
         applicationId "com.xwallet.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 116
-        versionName "1.7.0"
+        versionCode 123
+        versionName "1.7.5"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         if (isNewArchitectureEnabled()) {
@@ -227,14 +231,12 @@ android {
     }
     signingConfigs {
         release {
-            if (project.hasProperty('APP_UPLOAD_STORE_FILE')) {
-                storeFile file(APP_UPLOAD_STORE_FILE)
-                storePassword APP_UPLOAD_STORE_PASSWORD
-                keyAlias APP_UPLOAD_KEY_ALIAS
-                keyPassword APP_UPLOAD_KEY_PASSWORD
-                v1SigningEnabled true
-                v2SigningEnabled true
-            }
+            storeFile file(keystoreConfig['APP_UPLOAD_STORE_FILE'])
+            storePassword keystoreConfig['APP_UPLOAD_STORE_PASSWORD']
+            keyAlias keystoreConfig['APP_UPLOAD_KEY_ALIAS']
+            keyPassword keystoreConfig['APP_UPLOAD_KEY_PASSWORD']
+            v1SigningEnabled true
+            v2SigningEnabled true
         }
         debug {
             storeFile file('debug.keystore')
