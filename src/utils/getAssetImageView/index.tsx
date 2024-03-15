@@ -160,7 +160,14 @@ export const getAssetImageView = (tokenAddress: string, size = 40) => {
         <View style={[styles.image, {width: size, height: size}]}>
           <CyberflyIcon height={size} width={size} />
         </View>
-      )
+      );
+    case 'n_e309f0fa7cf3a13f93a8da5325cdad32790d2070.heron':
+      return (
+        <Image
+          source={require('../../assets/images/heron-icon.png')}
+          style={[styles.image, {width: size, height: size}]}
+        />
+      );
     default:
       return (
         <View style={[styles.image, {width: size, height: size}]}>
