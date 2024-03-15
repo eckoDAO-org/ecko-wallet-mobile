@@ -14,6 +14,7 @@ import KishuIcon from '../../assets/images/kishu-icon.svg';
 import LagoBTCIcon from '../../assets/images/lagoBTC-icon.svg';
 import WalletIcon from '../../assets/images/logo.svg';
 import MokIcon from '../../assets/images/mok-icon.svg';
+import CyberflyIcon from '../../assets/images/cfly.svg';
 import {styles} from './styles';
 
 export const getAssetImageView = (tokenAddress: string, size = 40) => {
@@ -147,6 +148,19 @@ export const getAssetImageView = (tokenAddress: string, size = 40) => {
           <JdeIcon height={size} width={size} />
         </View>
       );
+    case 'n_b742b4e9c600892af545afb408326e82a6c0c6ed.zUSD':
+      return (
+        <Image
+          source={require('../../assets/images/zUSD.png')}
+          style={[styles.image, {width: size, height: size}]}
+        />
+      );
+    case 'free.cyberfly_token':
+      return (
+        <View style={[styles.image, {width: size, height: size}]}>
+          <CyberflyIcon height={size} width={size} />
+        </View>
+      )
     default:
       return (
         <View style={[styles.image, {width: size, height: size}]}>
