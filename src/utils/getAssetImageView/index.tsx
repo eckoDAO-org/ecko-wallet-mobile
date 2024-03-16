@@ -168,6 +168,13 @@ export const getAssetImageView = (tokenAddress: string, size = 40) => {
           style={[styles.image, {width: size, height: size}]}
         />
       );
+    case 'free.maga':
+      return (
+        <Image
+          source={require('../../assets/images/maga-icon.png')}
+          style={[styles.image, {width: size, height: size}]}
+        />
+      );
     default:
       return (
         <View style={[styles.image, {width: size, height: size}]}>
