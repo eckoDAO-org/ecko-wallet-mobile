@@ -71,4 +71,12 @@ export const swapTokens = [
     tokenAddress: 'free.cyberfly_token',
     tokenName: 'CFLY',
   },
+  {
+    tokenAddress: 'n_e309f0fa7cf3a13f93a8da5325cdad32790d2070.heron',
+    tokenName: 'HERON',
+  },
+  {
+    tokenAddress: 'free.maga',
+    tokenName: 'MAGA',
+  },
 ];
