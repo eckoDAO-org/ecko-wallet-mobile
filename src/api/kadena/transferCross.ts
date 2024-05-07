@@ -115,12 +115,14 @@ export const getTransferCross: (
     {
       publicKey,
       secretKey: privateKey,
-      clist: [
-        {name: 'coin.GAS', args: []},        
-      ],
+      clist: [],
     },
   ];
   if (hasXChainCapability) {
+    keyPair[0].clist.push({
+      name: 'coin.GAS',
+      args: [],
+    });
     keyPair[0].clist.push({
       name: `${token || 'coin'}.TRANSFER_XCHAIN`,
       args: [sender, receiver, Number(amount), targetChainId],
