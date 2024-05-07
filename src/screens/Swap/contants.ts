@@ -79,4 +79,8 @@ export const swapTokens = [
     tokenAddress: 'free.maga',
     tokenName: 'MAGA',
   },
+  {
+    tokenAddress: 'free.crankk01',
+    tokenName: 'CRKK',
+  },
 ];

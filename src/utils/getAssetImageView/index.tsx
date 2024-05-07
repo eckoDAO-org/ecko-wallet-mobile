@@ -175,6 +175,13 @@ export const getAssetImageView = (tokenAddress: string, size = 40) => {
           style={[styles.image, {width: size, height: size}]}
         />
       );
+    case 'free.crankk01':
+      return (
+        <Image
+          source={require('../../assets/images/crankk01-icon.png')}
+          style={[styles.image, {width: size, height: size}]}
+        />
+      );
     default:
       return (
         <View style={[styles.image, {width: size, height: size}]}>
