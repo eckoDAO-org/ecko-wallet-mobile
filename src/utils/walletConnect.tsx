@@ -347,17 +347,16 @@ export const useWalletConnect = () => {
           },
         } = event;
 
-        const foundAccount = (accountsList || []).find(
-            (item: any) =>
-                item.accountName === cmdValue?.sender ||
-                item.publicKey === cmdValue?.sender ||
-                item.publicKey === cmdValue?.signingPubKey,
-        );
-
         switch (method) {
           case KDX_METHODS.KDX_SIGN:
           case KDA_METHODS.KDA_SIGN:
           {
+            const foundAccount = (accountsList || []).find(
+              (item: any) =>
+                  item.accountName === cmdValue?.sender ||
+                  item.publicKey === cmdValue?.sender ||
+                  item.publicKey === cmdValue?.signingPubKey,
+            );
             const signResultData = await getSignRequest({
               network: getNetwork(
                   selectedNetwork?.network || EDefaultNetwork.devnet,
@@ -381,6 +380,12 @@ export const useWalletConnect = () => {
             break;
           case KDA_METHODS.KDA_SIGN_V1:
           {
+            const foundAccount = (accountsList || []).find(
+              (item: any) =>
+                  item.accountName === cmdValue?.sender ||
+                  item.publicKey === cmdValue?.sender ||
+                  item.publicKey === cmdValue?.signingPubKey,
+            );
             const signResultData = await getSignRequest({
               network: getNetwork(
                   selectedNetwork?.network || EDefaultNetwork.devnet,
@@ -407,10 +412,16 @@ export const useWalletConnect = () => {
             break;
           case KDA_METHODS.KDA_QUICK_SIGN:
           {
+            const foundAccount = (accountsList || []).find(
+              (item: any) =>
+                  item.accountName === cmdValue?.sender ||
+                  item.publicKey === cmdValue?.sender ||
+                  item.publicKey === cmdValue?.signingPubKey,
+            );
             const quickSignData = quickSign(
                 cmdValue?.commandSigDatas,
-                foundAccount?.publicKey,
-                foundAccount?.privateKey,
+              foundAccount?.publicKey,
+              foundAccount?.privateKey,
             );
             const response = formatJsonRpcResult(eventId, {
               status: 'success',
@@ -423,9 +434,16 @@ export const useWalletConnect = () => {
           }
             break;
           case KDA_METHODS.KDA_QUICK_SIGN_V1:
-          {
+          { 
+            const foundAccount = (accountsList || []).find((item: any) =>
+              cmdValue.commandSigDatas.find((cmdSigData: any) =>
+                cmdSigData.sigs.find(
+                  (sig: any) => sig.pubKey === item.publicKey,
+                ),
+              ),
+            );
             const quickSignData = quickSign(
-                cmdValue?.commandSigDatas,
+                cmdValue,
                 foundAccount?.publicKey,
                 foundAccount?.privateKey,
             );
