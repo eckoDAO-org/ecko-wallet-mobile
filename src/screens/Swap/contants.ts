@@ -40,32 +40,12 @@ export const swapTokens = [
     tokenName: 'KAPY',
   },
   {
-    tokenAddress: 'free.jodie-token',
-    tokenName: 'JDE',
-  },
-  {
-    tokenAddress: 'lago.kwBTC',
-    tokenName: 'kwBTC',
-  },
-  {
-    tokenAddress: 'lago.USD2',
-    tokenName: 'USD2',
-  },
-  {
     tokenAddress: 'arkade.token',
     tokenName: 'ARKD',
   },
   {
     tokenAddress: 'free.KAYC',
     tokenName: 'KAYC',
-  },
-  {
-    tokenAddress: 'free.corona-token',
-    tokenName: 'CRNA',
-  },
-  {
-    tokenAddress: 'free.docu',
-    tokenName: 'DOC',
   },
   {
     tokenAddress: 'free.cyberfly_token',
@@ -82,5 +62,9 @@ export const swapTokens = [
   {
     tokenAddress: 'free.crankk01',
     tokenName: 'CRKK',
+  },
+  {
+    tokenAddress: 'free.finux',
+    tokenName: 'FINUX',
   },
 ];

@@ -3,7 +3,6 @@ import {Image, View} from 'react-native';
 import BabenaIcon from '../../assets/images/babena-icon.svg';
 import BackAlleyIcon from '../../assets/images/backalley-icon.svg';
 import HypeIcon from '../../assets/images/hype-icon.svg';
-import JdeIcon from '../../assets/images/jde-icon.svg';
 import KapyIcon from '../../assets/images/kapy-icon.svg';
 import KaycIcon from '../../assets/images/kayc-icon.svg';
 import KDAIcon from '../../assets/images/kda-icon.svg';
@@ -11,7 +10,6 @@ import KDLIcon from '../../assets/images/kdl-icon.svg';
 import KDSIcon from '../../assets/images/kds-icon.svg';
 import KDXIcon from '../../assets/images/kdx-icon.svg';
 import KishuIcon from '../../assets/images/kishu-icon.svg';
-import LagoBTCIcon from '../../assets/images/lagoBTC-icon.svg';
 import WalletIcon from '../../assets/images/logo.svg';
 import MokIcon from '../../assets/images/mok-icon.svg';
 import CyberflyIcon from '../../assets/images/cfly.svg';
@@ -86,12 +84,6 @@ export const getAssetImageView = (tokenAddress: string, size = 40) => {
           style={[styles.image, {width: size, height: size}]}
         />
       );
-    case 'lago.kwBTC':
-      return (
-        <View style={[styles.image, {width: size, height: size}]}>
-          <LagoBTCIcon height={size} width={size} />
-        </View>
-      );
     case 'arkade.token':
       return (
         <Image
@@ -122,13 +114,6 @@ export const getAssetImageView = (tokenAddress: string, size = 40) => {
           </View>
         </View>
       );
-    case 'lago.USD2':
-      return (
-        <Image
-          source={require('../../assets/images/lago-icon.png')}
-          style={[styles.image, {width: size, height: size}]}
-        />
-      );
     case 'mok.token':
       return (
         <View style={[styles.image, {width: size, height: size}]}>
@@ -139,13 +124,6 @@ export const getAssetImageView = (tokenAddress: string, size = 40) => {
       return (
         <View style={[styles.image, {width: size, height: size}]}>
           <KapyIcon height={size} width={size} />
-        </View>
-      );
-
-    case 'free.jodie-token':
-      return (
-        <View style={[styles.image, {width: size, height: size}]}>
-          <JdeIcon height={size} width={size} />
         </View>
       );
     case 'n_b742b4e9c600892af545afb408326e82a6c0c6ed.zUSD':
@@ -179,6 +157,13 @@ export const getAssetImageView = (tokenAddress: string, size = 40) => {
       return (
         <Image
           source={require('../../assets/images/crankk.png')}
+          style={[styles.image, {width: size, height: size}]}
+        />
+      );
+    case 'free.finux':
+      return (
+        <Image
+          source={require('../../assets/images/finux.png')}
           style={[styles.image, {width: size, height: size}]}
         />
       );
