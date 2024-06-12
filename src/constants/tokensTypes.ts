@@ -33,6 +33,7 @@ export type TMainnet = {
   MAGA: TToken;
   CRKK: TToken;
   FINUX: TToken;
+  BRO: TToken;
 };
 export type TToken = {
   name: string;

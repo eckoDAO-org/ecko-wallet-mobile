@@ -77,13 +77,6 @@ export const getAssetImageView = (tokenAddress: string, size = 40) => {
           style={[styles.image, {width: size, height: size}]}
         />
       );
-    case 'lago.kwUSDC':
-      return (
-        <Image
-          source={require('../../assets/images/usdc-icon.png')}
-          style={[styles.image, {width: size, height: size}]}
-        />
-      );
     case 'arkade.token':
       return (
         <Image
@@ -164,6 +157,13 @@ export const getAssetImageView = (tokenAddress: string, size = 40) => {
       return (
         <Image
           source={require('../../assets/images/finux.png')}
+          style={[styles.image, {width: size, height: size}]}
+        />
+      );
+    case 'n_582fed11af00dc626812cd7890bb88e72067f28c.bro':
+      return (
+        <Image
+          source={require('../../assets/images/bro.png')}
           style={[styles.image, {width: size, height: size}]}
         />
       );

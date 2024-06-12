@@ -24,6 +24,10 @@ export const swapTokens = [
     tokenName: 'MOK',
   },
   {
+    tokenAddress: 'kdlaunch.token',
+    tokenName: 'KDL',
+  },
+  {
     tokenAddress: 'kdlaunch.kdswap-token',
     tokenName: 'KDS',
   },
@@ -66,5 +70,9 @@ export const swapTokens = [
   {
     tokenAddress: 'free.finux',
     tokenName: 'FINUX',
+  },
+  {
+    tokenAddress: 'n_582fed11af00dc626812cd7890bb88e72067f28c.bro',
+    tokenName: 'BRO',
   },
 ];
