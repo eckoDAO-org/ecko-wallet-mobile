@@ -27,23 +27,11 @@ const getNonceByPlatform = (platform?: string) => {
 };
 
 export const getSign: (params: SignQueryParams) => Promise<any> = async ({
-  network,
-  instance,
-  sourceChainId,
-  version,
   publicKey,
   signature,
   cmdValue,
 }) => {
-  if (
-    !instance ||
-    !network ||
-    !version ||
-    !publicKey ||
-    !signature ||
-    sourceChainId === undefined ||
-    !cmdValue
-  ) {
+  if (!publicKey || !signature || !cmdValue) {
     throw new Error('Wrong Parameters: request getSign');
   }
 
@@ -70,7 +58,7 @@ export const getSign: (params: SignQueryParams) => Promise<any> = async ({
     keyPairs,
     getNonceByPlatform(Platform.OS),
     signingCmd.pactCode || signingCmd.code,
-    signingCmd.envData,
+    signingCmd.envData || signingCmd.data,
     meta,
     signingCmd.networkId,
   );

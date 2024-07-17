@@ -72,6 +72,12 @@ export const KDA_CHAINS = [
   'kadena:development',
 ];
 
+const NETWORK_IDS: Record<string, string> = {
+  mainnet: 'mainnet01',
+  testnet: 'testnet04',
+  devnet: 'development',
+};
+
 const KDA_METHODS = {
   KDA_SIGN: 'kadena_sign',
   KDA_QUICK_SIGN: 'kadena_quicksign',
@@ -380,6 +386,10 @@ export const useWalletConnect = () => {
             break;
           case KDA_METHODS.KDA_SIGN_V1:
             {
+              const networkId =
+                NETWORK_IDS[
+                  selectedNetwork?.network || EDefaultNetwork.mainnet
+                ];
               const foundAccount = (accountsList || []).find(
                 (item: any) =>
                   item.accountName === cmdValue?.sender ||
@@ -387,14 +397,9 @@ export const useWalletConnect = () => {
                   item.publicKey === cmdValue?.signingPubKey,
               );
               const signResultData = await getSignRequest({
-                network: getNetwork(
-                  selectedNetwork?.network || EDefaultNetwork.devnet,
-                ),
-                instance: cmdValue.networkId,
-                version: cmdValue.networkVersion || '0.0',
-                sourceChainId: cmdValue.chainId || '2',
                 cmdValue: JSON.stringify({
                   ...cmdValue,
+                  networkId: cmdValue.networkId || networkId,
                   pactCode: cmdValue.code,
                 }),
                 publicKey: foundAccount?.publicKey || '',
