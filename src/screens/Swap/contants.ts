@@ -24,6 +24,10 @@ export const swapTokens = [
     tokenName: 'MOK',
   },
   {
+    tokenAddress: 'kdlaunch.token',
+    tokenName: 'KDL',
+  },
+  {
     tokenAddress: 'kdlaunch.kdswap-token',
     tokenName: 'KDS',
   },
@@ -40,32 +44,12 @@ export const swapTokens = [
     tokenName: 'KAPY',
   },
   {
-    tokenAddress: 'free.jodie-token',
-    tokenName: 'JDE',
-  },
-  {
-    tokenAddress: 'lago.kwBTC',
-    tokenName: 'kwBTC',
-  },
-  {
-    tokenAddress: 'lago.USD2',
-    tokenName: 'USD2',
-  },
-  {
     tokenAddress: 'arkade.token',
     tokenName: 'ARKD',
   },
   {
     tokenAddress: 'free.KAYC',
     tokenName: 'KAYC',
-  },
-  {
-    tokenAddress: 'free.corona-token',
-    tokenName: 'CRNA',
-  },
-  {
-    tokenAddress: 'free.docu',
-    tokenName: 'DOC',
   },
   {
     tokenAddress: 'free.cyberfly_token',
@@ -78,5 +62,17 @@ export const swapTokens = [
   {
     tokenAddress: 'free.maga',
     tokenName: 'MAGA',
+  },
+  {
+    tokenAddress: 'free.crankk01',
+    tokenName: 'CRKK',
+  },
+  {
+    tokenAddress: 'free.finux',
+    tokenName: 'FINUX',
+  },
+  {
+    tokenAddress: 'n_582fed11af00dc626812cd7890bb88e72067f28c.bro',
+    tokenName: 'BRO',
   },
 ];

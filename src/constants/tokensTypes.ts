@@ -17,21 +17,23 @@ export type TTokens = {
 export type TMainnet = {
   KDA: TToken;
   KDX: TToken;
+  zUSD: TToken;
   FLUX: TToken;
   HYPE: TToken;
   MOK: TToken;
-  kwUSDC: TToken;
   KDL: TToken;
   KDS: TToken;
   BKA: TToken;
   KISHK: TToken;
   KAPY: TToken;
-  JDE: TToken;
-  kwBTC: TToken;
-  USD2: TToken;
   ARKD: TToken;
   KAYC: TToken;
-  CRNA: TToken;
+  CFLY: TToken;
+  HERON: TToken;
+  MAGA: TToken;
+  CRKK: TToken;
+  FINUX: TToken;
+  BRO: TToken;
 };
 export type TToken = {
   name: string;

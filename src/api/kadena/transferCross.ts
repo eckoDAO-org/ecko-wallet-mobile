@@ -87,9 +87,9 @@ export const getTransferCross: (
       : signature.length === 64
       ? signature
       : null;
-
+  let hasXChainCapability = false;
   try {
-    await Pact.fetch.local(
+    const interfaces = await Pact.fetch.local(
       {
         keyPairs: [],
         pactCode: `(at 'interfaces (describe-module "${token || 'coin'}"))`,
@@ -104,21 +104,30 @@ export const getTransferCross: (
       },
       getPactHost(network, version, instance, sourceChainId, customHost),
     );
+    if (interfaces?.result?.data && Array.isArray(interfaces?.result?.data)) {
+      if (interfaces?.result?.data?.some((moduleInterface: string) => moduleInterface === 'fungible-xchain-v1')) {
+        hasXChainCapability = true;
+      }
+    }
   } catch (e) {}
 
-  const keyPair = [
+  const keyPair: any = [
     {
       publicKey,
       secretKey: privateKey,
-      clist: [
-        {name: 'coin.GAS', args: []},
-        {
-          name: `${token || 'coin'}.TRANSFER_XCHAIN`,
-          args: [sender, receiver, Number(amount), targetChainId],
-        },
-      ],
+      clist: [],
     },
   ];
+  if (hasXChainCapability) {
+    keyPair[0].clist.push({
+      name: 'coin.GAS',
+      args: [],
+    });
+    keyPair[0].clist.push({
+      name: `${token || 'coin'}.TRANSFER_XCHAIN`,
+      args: [sender, receiver, Number(amount), targetChainId],
+    });
+  }
   const pactCode = `(${token || 'coin'}.transfer-crosschain ${JSON.stringify(
     sender,
   )} ${JSON.stringify(receiver)} (read-keyset "ks") ${JSON.stringify(
