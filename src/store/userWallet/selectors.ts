@@ -49,3 +49,8 @@ export const makeSelectNonTransferableTokenList = createSelector(
     return state.nonTransferableTokenList || [];
   },
 );
+
+export const makeSelectHasAccount = createSelector(
+  selectedState,
+  state => state.accounts.length > 0,
+);
