@@ -526,7 +526,7 @@
 				CODE_SIGN_ENTITLEMENTS = kadena/kadena.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 136;
+				CURRENT_PROJECT_VERSION = 138;
 				DEVELOPMENT_TEAM = 483Q3633XV;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = kadena/Info.plist;
@@ -561,7 +561,7 @@
 				CODE_SIGN_ENTITLEMENTS = kadena/kadena.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 136;
+				CURRENT_PROJECT_VERSION = 138;
 				DEVELOPMENT_TEAM = 483Q3633XV;
 				INFOPLIST_FILE = kadena/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = eckoWALLET;
