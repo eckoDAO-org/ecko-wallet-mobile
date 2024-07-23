@@ -8,7 +8,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useForm, Controller, FieldValues} from 'react-hook-form';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
@@ -18,6 +18,7 @@ import ArrowLeftSvg from '../../assets/images/arrow-left.svg';
 import {styles} from './styles';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
 import {changePassword} from '../../store/auth';
+import {makeSelectHasAccount} from '../../store/userWallet/selectors';
 import PasswordInput from '../../components/PasswordInput';
 import {createPasswordSchema} from '../../validation/createPasswordSchema';
 import {useScrollBottomOnKeyboard} from '../../utils/keyboardHelpers';
@@ -32,6 +33,7 @@ const Registration = () => {
   const navigation =
     useNavigation<TNavigationProp<ERootStackRoutes.Registration>>();
   const dispatch = useDispatch();
+  const hasAccount = useSelector(makeSelectHasAccount);
 
   const {
     control,
@@ -43,18 +45,34 @@ const Registration = () => {
     navigation.goBack();
   }, [navigation]);
 
-  const handlePressCreate = useCallback((data: FieldValues) => {
-    hashPassword({
-      password: data.password || '',
-    })
-      .then(hashResponseHash => {
-        if (hashResponseHash) {
-          dispatch(changePassword(hashResponseHash));
-          navigation.navigate({
-            name: ERootStackRoutes.SecretRecoveryPhraseTerm,
-            params: undefined,
-          });
-        } else {
+  const handlePressCreate = useCallback(
+    (data: FieldValues) => {
+      if (hasAccount) {
+        return;
+      }
+
+      hashPassword({
+        password: data.password || '',
+      })
+        .then(hashResponseHash => {
+          if (hashResponseHash) {
+            dispatch(changePassword(hashResponseHash));
+            navigation.navigate({
+              name: ERootStackRoutes.SecretRecoveryPhraseTerm,
+              params: undefined,
+            });
+          } else {
+            ReactNativeHapticFeedback.trigger('impactMedium', {
+              enableVibrateFallback: false,
+              ignoreAndroidSystemSettings: false,
+            });
+            Alert.alert(
+              'Failed to register',
+              'Something went wrong. Please try again later.',
+            );
+          }
+        })
+        .catch(() => {
           ReactNativeHapticFeedback.trigger('impactMedium', {
             enableVibrateFallback: false,
             ignoreAndroidSystemSettings: false,
@@ -63,22 +81,18 @@ const Registration = () => {
             'Failed to register',
             'Something went wrong. Please try again later.',
           );
-        }
-      })
-      .catch(() => {
-        ReactNativeHapticFeedback.trigger('impactMedium', {
-          enableVibrateFallback: false,
-          ignoreAndroidSystemSettings: false,
         });
-        Alert.alert(
-          'Failed to register',
-          'Something went wrong. Please try again later.',
-        );
-      });
-  }, []);
+    },
+    [hasAccount],
+  );
 
   const scrollRef = useRef<ScrollView | null>(null);
   useScrollBottomOnKeyboard(scrollRef);
+
+  if (hasAccount) {
+    navigation.replace(ERootStackRoutes.SignIn);
+    return null;
+  }
 
   return (
     <ImageBackground source={bgImage} resizeMode="cover" style={styles.bgImage}>

@@ -12,6 +12,7 @@ import {
   makeSelectHashPassword,
   makeSelectPinCode,
 } from '../../store/auth/selectors';
+import {makeSelectHasAccount} from '../../store/userWallet/selectors';
 import {useNavigation} from '@react-navigation/native';
 
 const bgImage = require('../../assets/images/bgimage.png');
@@ -19,6 +20,7 @@ const bgImage = require('../../assets/images/bgimage.png');
 const Welcome = () => {
   const navigation = useNavigation<TNavigationProp<ERootStackRoutes.Welcome>>();
 
+  const hasAccount = useSelector(makeSelectHasAccount);
   const storedPinCode = useSelector(makeSelectPinCode);
   const storedPasswordHash = useSelector(makeSelectHashPassword);
 
@@ -64,18 +66,37 @@ const Welcome = () => {
                 onPress={navigateTo(ERootStackRoutes.SignIn)}
               />
             ) : null}
-            <Card
-              title="I’m a new user"
-              description="Setup new eckoWALLET account"
-              icon={<UserSvg />}
-              onPress={navigateTo(ERootStackRoutes.Registration)}
-            />
-            <Card
-              title="I have an account"
-              description="Login with your secret phrase"
-              icon={<CircleArrowRightSvg />}
-              onPress={navigateTo(ERootStackRoutes.RecoveryFromSeeds)}
-            />
+            {!hasAccount ? (
+              <>
+                <Card
+                  title="I’m a new user"
+                  description="Setup new eckoWALLET account"
+                  icon={<UserSvg />}
+                  onPress={navigateTo(ERootStackRoutes.Registration)}
+                />
+                <Card
+                  title="I have an account"
+                  description="Login with your secret phrase"
+                  icon={<CircleArrowRightSvg />}
+                  onPress={navigateTo(ERootStackRoutes.RecoveryFromSeeds)}
+                />
+              </>
+            ) : (
+              <>
+                <Text style={styles.smText}>
+                  To add a new account, please follow the following steps:
+                </Text>
+                <Text style={styles.smText}>
+                  1. Login to your existing account
+                </Text>
+                <Text style={styles.smText}>
+                  2. Click on &quot;Settings&quot;
+                </Text>
+                <Text style={styles.smText}>
+                  3. Click on &quot;Delete account&quot;
+                </Text>
+              </>
+            )}
           </View>
         </View>
       </ScrollView>

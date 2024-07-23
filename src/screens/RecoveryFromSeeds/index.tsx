@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import ArrowLeftSvg from '../../assets/images/arrow-left.svg';
 
 import Logo from '../../assets/images/logo.svg';
@@ -20,6 +20,7 @@ import PasswordInput from '../../components/PasswordInput';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
 import {setPassword, setPhrases} from '../../store/auth';
 import {getRestoreAccount} from '../../store/userWallet/actions';
+import {makeSelectHasAccount} from '../../store/userWallet/selectors';
 import {bottomSpace} from '../../utils/deviceHelpers';
 import {useScrollBottomOnKeyboard} from '../../utils/keyboardHelpers';
 import {recoverySchema} from '../../validation/recoverySchema';
@@ -35,6 +36,7 @@ const RecoveryFromSeeds = () => {
     useNavigation<TNavigationProp<ERootStackRoutes.RecoveryFromSeeds>>();
 
   const dispatch = useDispatch();
+  const hasAccount = useSelector(makeSelectHasAccount);
 
   const {
     control,
@@ -51,6 +53,10 @@ const RecoveryFromSeeds = () => {
 
   const handlePressRecover = useCallback(
     ({seeds, password}: FieldValues) => {
+      if (hasAccount) {
+        return;
+      }
+
       validateSeeds({
         seeds: seeds || '',
       })
@@ -114,11 +120,16 @@ const RecoveryFromSeeds = () => {
           );
         });
     },
-    [navigation],
+    [navigation, hasAccount],
   );
 
   const scrollRef = useRef<ScrollView | null>(null);
   useScrollBottomOnKeyboard(scrollRef);
+
+  if (hasAccount) {
+    navigation.replace(ERootStackRoutes.SignIn);
+    return null;
+  }
 
   return (
     <ImageBackground source={bgImage} resizeMode="cover" style={styles.bgImage}>
