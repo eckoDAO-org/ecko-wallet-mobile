@@ -7,7 +7,7 @@ import {
   View,
   KeyboardAvoidingView,
 } from 'react-native';
-
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import Header from './components/Header';
 import {createStyles} from './styles';
 import {
@@ -41,6 +41,10 @@ const ReceiverScan = () => {
     codeTypes: ['qr'],
     onCodeScanned: codes => {
       if (codes.length > 0 && codes[0]?.value && codes[0]?.value !== textUri) {
+        ReactNativeHapticFeedback.trigger('impactMedium', {
+          enableVibrateFallback: true,
+          ignoreAndroidSystemSettings: true,
+        });
         setTexTUri(codes[0].value);
       }
     },

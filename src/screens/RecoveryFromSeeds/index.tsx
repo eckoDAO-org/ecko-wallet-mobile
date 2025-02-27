@@ -57,7 +57,7 @@ const RecoveryFromSeeds = () => {
       if (hasAccount) {
         return;
       }
-
+      seeds = seeds.trim();
       validateSeeds({
         seeds: seeds || '',
       })
