@@ -44,6 +44,7 @@ export const createStyles = ({
     input: {
       backgroundColor: 'white',
       paddingHorizontal: 0,
+      height: 50,
     },
     title: {
       fontFamily: MEDIUM_MONTSERRAT,

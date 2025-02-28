@@ -56,7 +56,7 @@ const ExportRecoveryPhrase = () => {
             Your Secret Recovery Phrase makes it easy to back up and restore
             your account.
           </Text>
-          <Warning text="Never disclose your Secret Recovery Phrase. Anyone with this phrase cane take your wallet forever." />
+          <Warning text="Never disclose your Secret Recovery Phrase. Anyone with this phrase can take your wallet forever." />
         </View>
         <View style={styles.footerWrapper}>
           <ListItem

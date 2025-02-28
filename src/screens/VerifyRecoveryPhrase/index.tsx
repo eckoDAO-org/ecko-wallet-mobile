@@ -79,7 +79,7 @@ const VerifyRecoveryPhrase = () => {
             return `${str} ${inputVal}`;
           }, '')
           .slice(1);
-        return inputSeeds === seeds;
+        return inputSeeds?.toLocaleLowerCase() === seeds?.toLocaleLowerCase();
       };
 
       if (validateSeeds()) {
@@ -120,7 +120,7 @@ const VerifyRecoveryPhrase = () => {
           </Text>
           <Text style={styles.warning}>
             It is recommended not to use custom keyboards. Please use default
-            keyboard.
+            keyboard for security reasons.
           </Text>
           <View style={styles.inputsWrapper}>
             {list.map(item => (
@@ -134,6 +134,7 @@ const VerifyRecoveryPhrase = () => {
                     style={styles.input}
                     label={`input ${item}`}
                     onChangeText={(v: string) => {
+                      v = v.trim();
                       onChange(v);
                       setValidSeeds(true);
                     }}

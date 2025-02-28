@@ -76,7 +76,7 @@ const Settings = () => {
     });
     Alert.alert(
       'Are you sure to delete account?',
-      'All account data will be deleted and can not be restored',
+      'All account data will be deleted. If you do not have your seed phrase you will lose all access to your funds.',
       [
         {
           text: 'Cancel',
