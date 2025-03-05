@@ -22,7 +22,7 @@ import {
   TNavigationRouteProp,
 } from '../../routes/types';
 
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   setEstimatedGasFee,
@@ -38,7 +38,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {makeSelectSelectedToken} from '../../store/userWallet/selectors';
 import {makeSelectIsTransferring} from '../../store/transfer/selectors';
 import Toast from 'react-native-toast-message';
-import {statusBarHeight} from '../../utils/deviceHelpers';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const Send = () => {
   const navigation = useNavigation<TNavigationProp<ERootStackRoutes.Send>>();
@@ -55,6 +55,9 @@ const Send = () => {
   const [predicate, setPredicate] = useState<string | null>(null);
   const [accountPublicKey, setAccountPublicKey] = useState<string>('');
   const [accountName, setAccountName] = useState<string>('');
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const handlePressContinue = useCallback(() => {
     if (isCurrentlyTransferring) {

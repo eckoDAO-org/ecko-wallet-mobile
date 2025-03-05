@@ -1,6 +1,5 @@
 import React, {FC, useCallback, useState} from 'react';
-import {Platform, View} from 'react-native';
-
+import {KeyboardAvoidingView, Platform, View} from 'react-native';
 import BasicSettingsSvg from '../../../../assets/images/basic-settins.svg';
 import {TouchableOpacity} from 'react-native';
 import Modal from '../../../../components/Modal';
@@ -10,8 +9,7 @@ import {styles} from './styles';
 import Predicate from '../../../../components/Predicate';
 import {predicates} from '../../consts';
 import {TSettingsType} from './types';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
-import {bottomSpace} from '../../../../utils/deviceHelpers';
+import {useSafeAreaValues} from '../../../../utils/deviceHelpers';
 
 const Settings: FC<TSettingsType> = ({
   predicate,
@@ -20,6 +18,7 @@ const Settings: FC<TSettingsType> = ({
   setReceiverPublicKey,
 }) => {
   const [isVisible, setVisible] = useState(false);
+  const {bottomSpace} = useSafeAreaValues();
 
   const toggleModal = useCallback(() => {
     setVisible(!isVisible);
@@ -37,25 +36,27 @@ const Settings: FC<TSettingsType> = ({
         isVisible={isVisible}
         close={toggleModal}
         title="Advanced Settings">
-        <View style={styles.contentWrapper}>
-          <View style={styles.predicateContainer}>
-            <Predicate
-              value={predicate}
-              setValue={setPredicate}
-              items={predicates}
+        <KeyboardAvoidingView
+          style={{flex: 1}}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          keyboardVerticalOffset={-bottomSpace}>
+          <View style={styles.contentWrapper}>
+            <View style={styles.predicateContainer}>
+              <Predicate
+                value={predicate}
+                setValue={setPredicate}
+                items={predicates}
+              />
+            </View>
+            <Input
+              wrapperStyle={styles.inputWrapper}
+              label="Receiver Public Key"
+              placeholder="Enter Public Key (Optional)"
+              value={receiverPublicKey || ''}
+              onChangeText={setReceiverPublicKey}
             />
           </View>
-          <Input
-            wrapperStyle={styles.inputWrapper}
-            label="Receiver Public Key"
-            placeholder="Enter Public Key (Optional)"
-            value={receiverPublicKey || ''}
-            onChangeText={setReceiverPublicKey}
-          />
-          {Platform.OS === 'ios' && (
-            <KeyboardSpacer topSpacing={-bottomSpace} />
-          )}
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     </>
   );

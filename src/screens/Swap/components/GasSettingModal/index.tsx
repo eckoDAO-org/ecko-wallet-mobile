@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useMemo, useState} from 'react';
-import {View, Text, Platform} from 'react-native';
+import {View, Text, Switch} from 'react-native';
 import {styles} from './styles';
 import Modal from '../../../../components/Modal';
 import Input from '../../../../components/Input';
@@ -9,9 +9,6 @@ import {usePactContext} from '../../../../contexts';
 import {GAS_OPTIONS} from '../../../../constants';
 import {getDecimalPlaces} from '../../../../utils/numberHelpers';
 import {TGasSettingModalProps, TSpeed} from './types';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
-import {bottomSpace} from '../../../../utils/deviceHelpers';
-import ToggleSwitch from 'toggle-switch-react-native';
 
 const speedValues: TSpeed[] = ['low', 'normal', 'fast'];
 
@@ -71,10 +68,11 @@ const GasSettingModal: FC<TGasSettingModalProps> = ({isVisible, toggle}) => {
       <View style={styles.modalContainer}>
         <View style={styles.header}>
           <Text style={styles.gasStation}>GAS STATION</Text>
-          <ToggleSwitch
-            isOn={pact.enableGasStation}
-            onColor={MAIN_COLOR}
-            onToggle={toggleSwitch}
+          <Switch
+            value={pact.enableGasStation}
+            onValueChange={toggleSwitch}
+            trackColor={{false: '#767577', true: MAIN_COLOR}}
+            thumbColor={pact.enableGasStation ? MAIN_COLOR : '#f4f3f4'}
           />
         </View>
         {!pact.enableGasStation ? (
@@ -126,7 +124,6 @@ const GasSettingModal: FC<TGasSettingModalProps> = ({isVisible, toggle}) => {
             No gas cost - subsidized by eckoDEX through Kadena gas stations.
           </Text>
         )}
-        {Platform.OS === 'ios' && <KeyboardSpacer topSpacing={-bottomSpace} />}
       </View>
     </Modal>
   );

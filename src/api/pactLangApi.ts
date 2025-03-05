@@ -6,7 +6,7 @@ const b64url = (function () {
   var chars =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_=';
 
-  function InvalidCharacterError(message) {
+  function InvalidCharacterError(message: any) {
     this.message = message;
   }
   InvalidCharacterError.prototype = new Error();
@@ -14,7 +14,7 @@ const b64url = (function () {
 
   // encoder
   // [https://gist.github.com/999166] by [https://github.com/nignag]
-  function base64UrlEncode(input) {
+  function base64UrlEncode(input: string | number) {
     var str = String(input);
     for (
       // initialize result and counter
@@ -40,7 +40,7 @@ const b64url = (function () {
 
   // decoder
   // [https://gist.github.com/1020396] by [https://github.com/atk]
-  function base64UrlDecode(input) {
+  function base64UrlDecode(input: any) {
     var str = String(input).replace(/[=]+$/, ''); // #31: ExtendScript bad parse of /=
     if (str.length % 4 === 1) {
       throw new InvalidCharacterError(
@@ -91,7 +91,7 @@ const hashBin = function (s: string) {
   return require('blakejs').blake2b(s, null, 32);
 };
 
-function uint8ArrayToStr(a) {
+function uint8ArrayToStr(a: any) {
   return String.fromCharCode.apply(null, new Uint16Array(a));
 }
 
@@ -99,7 +99,7 @@ function b64urlEncodeArr(input: any) {
   return b64url.encode(uint8ArrayToStr(input));
 }
 
-const hash = function (s) {
+const hash = function (s: any) {
   return b64urlEncodeArr(hashBin(s));
 };
 
@@ -196,7 +196,7 @@ const sign = function (msg: any, keyPair: any) {
   return {hash: hsh, sig: binToHex(sigBin), pubKey: keyPair.publicKey};
 };
 
-const pullSig = function (s: string) {
+const pullSig = function (s: any) {
   // eslint-disable-next-line no-prototype-builtins
   if (!s.hasOwnProperty('sig')) {
     throw new TypeError(

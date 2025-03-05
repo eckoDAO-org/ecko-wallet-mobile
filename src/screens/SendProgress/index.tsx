@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Header from './components/Header';
 import Warning from '../../components/Warning';
 import AccountFromTo from '../../components/AccountFromTo';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {
   makeSelectGatheredInfo,
   makeSelectIsCrossChainTransfer,
@@ -17,8 +17,8 @@ import FooterButton from '../../components/FooterButton';
 import {EHomeTabRoutes} from '../../routes/types';
 import {setTransferBubble} from '../../store/transfer';
 import {useShallowEqualSelector} from '../../store/utils';
-import {statusBarHeight} from '../../utils/deviceHelpers';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const SendProgress = () => {
   const navigation = useNavigation<any>();
@@ -29,6 +29,9 @@ const SendProgress = () => {
   const selectedToken = useShallowEqualSelector(makeSelectSelectedToken);
 
   const [animation] = useState<Animated.Value>(new Animated.Value(0));
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   useEffect(() => {
     if (transferResult?.status === 'pending') {
@@ -45,7 +48,9 @@ const SendProgress = () => {
   }, [transferResult?.status]);
 
   const onGoToActivities = useCallback(() => {
-    navigation.navigate(EHomeTabRoutes.History);
+    navigation.navigate('Home', {
+      screen: EHomeTabRoutes.History,
+    });
   }, [navigation]);
 
   useEffect(() => {

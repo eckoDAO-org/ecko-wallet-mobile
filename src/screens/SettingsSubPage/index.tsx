@@ -6,7 +6,8 @@ import ArrowLeftSvg from '../../assets/images/arrow-left.svg';
 import ShieldLockSvg from '../../assets/images/shield-lock.svg';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
 import Card from '../Settings/components/Card';
-import {styles} from './styles';
+import {createStyles} from './styles';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const SettingsSubPage = () => {
   const navigation = useNavigation<TNavigationProp<ERootStackRoutes.Home>>();
@@ -14,6 +15,9 @@ const SettingsSubPage = () => {
   const handlePressBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   return (
     <View style={styles.container}>

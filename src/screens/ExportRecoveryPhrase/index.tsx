@@ -7,16 +7,19 @@ import Header from './components/Header';
 import Warning from '../../components/Warning';
 import ListItem from '../../components/ListItem';
 import BasicCopySvg from '../../assets/images/basic-copy.svg';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {makeSelectGeneratedPhrases} from '../../store/auth/selectors';
 import {getSecretList} from '../../utils/stringHelpers';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {useShallowEqualSelector} from '../../store/utils';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const ExportRecoveryPhrase = () => {
   const seeds = useShallowEqualSelector(makeSelectGeneratedPhrases);
 
   const secretWords = useMemo(() => getSecretList(seeds), [seeds]);
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const copyToClipboard = useCallback(() => {
     ReactNativeHapticFeedback.trigger('impactMedium', {
@@ -39,10 +42,10 @@ const ExportRecoveryPhrase = () => {
         style={styles.contentWrapper}>
         <View style={styles.cardContainer}>
           <View style={styles.secretKeysWrapper}>
-            {secretWords.map(word => (
-              <View key={word} style={styles.secretKeysText}>
+            {secretWords.map((word, j) => (
+              <View key={word + j} style={styles.secretKeysText}>
                 {word.split(' ').map((item, index) => (
-                  <Text key={index} style={styles.secretKeys}>
+                  <Text key={index + j} style={styles.secretKeys}>
                     {item}
                   </Text>
                 ))}
@@ -53,7 +56,7 @@ const ExportRecoveryPhrase = () => {
             Your Secret Recovery Phrase makes it easy to back up and restore
             your account.
           </Text>
-          <Warning text="Never disclose your Secret Recovery Phrase. Anyone with this phrase cane take your wallet forever." />
+          <Warning text="Never disclose your Secret Recovery Phrase. Anyone with this phrase can take your wallet forever." />
         </View>
         <View style={styles.footerWrapper}>
           <ListItem

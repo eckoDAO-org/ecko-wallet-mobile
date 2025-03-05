@@ -3,11 +3,14 @@ import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import {Text, TouchableOpacity, View} from 'react-native';
 import Snackbar from 'react-native-snackbar';
 
-import {styles} from './styles';
+import {createStyles} from './styles';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {EHomeTabRoutes} from '../../../../routes/types';
+import {useSafeAreaValues} from '../../../../utils/deviceHelpers';
 
 const TabBar: FC<BottomTabBarProps> = ({state, descriptors, navigation}) => {
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
   return (
     <View style={styles.container}>
       {state.routes.map((route, index) => {

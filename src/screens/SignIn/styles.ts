@@ -1,52 +1,63 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import {BOLD_MONTSERRAT, MEDIUM_MONTSERRAT} from '../../constants/styles';
-import {bottomSpace, statusBarHeight} from '../../utils/deviceHelpers';
 
-export const styles = StyleSheet.create({
-  bgImage: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  header: {
-    position: 'absolute',
-    top: statusBarHeight + 12,
-    left: 16,
-    alignItems: 'flex-start',
-    width: '100%',
-  },
-  contentWrapper: {
-    flex: 1,
-    width: '100%',
-  },
-  content: {
-    minHeight: Dimensions.get('window').height,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingTop: 96,
-    paddingBottom: bottomSpace,
-    width: '100%',
-  },
-  text: {
-    fontFamily: MEDIUM_MONTSERRAT,
-    fontSize: 24,
-    fontWeight: '500',
-    color: 'white',
-    marginTop: 25,
-    marginBottom: 51,
-  },
-  password: {
-    paddingVertical: 32,
-  },
-  button: {
-    backgroundColor: '#FAA41A',
-    width: '100%',
-    paddingVertical: 17,
-  },
-  buttonText: {
-    fontFamily: BOLD_MONTSERRAT,
-    fontSize: 14,
-    fontWeight: '700',
-    textAlign: 'center',
-    color: 'white',
-  },
-});
+export const createStyles = ({
+  statusBarHeight,
+  bottomSpace,
+}: {
+  bottomSpace: number;
+  statusBarHeight: number;
+}) =>
+  StyleSheet.create({
+    bgImage: {
+      flex: 1,
+      width: '100%',
+    },
+    header: {
+      position: 'absolute',
+      top: statusBarHeight + 12,
+      left: 16,
+      alignItems: 'flex-start',
+      width: '100%',
+      zIndex: 1,
+    },
+    contentWrapper: {
+      flex: 1,
+    },
+    content: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      paddingTop: 96,
+      width: '100%',
+    },
+    text: {
+      fontFamily: MEDIUM_MONTSERRAT,
+      fontSize: 24,
+      fontWeight: '500',
+      color: 'white',
+      marginTop: 25,
+      marginBottom: 51,
+    },
+    password: {
+      width: '100%',
+      paddingVertical: 32,
+    },
+    buttonContainer: {
+      width: '100%',
+      paddingBottom: bottomSpace + 16,
+      backgroundColor: 'transparent',
+    },
+    button: {
+      backgroundColor: '#FAA41A',
+      width: '100%',
+      paddingVertical: 17,
+    },
+    buttonText: {
+      fontFamily: BOLD_MONTSERRAT,
+      fontSize: 14,
+      fontWeight: '700',
+      textAlign: 'center',
+      color: 'white',
+    },
+  });

@@ -19,8 +19,8 @@ import {useNavigation} from '@react-navigation/native';
 import {ERootStackRoutes, TNavigationProp} from '../../../../routes/types';
 import {useShallowEqualSelector} from '../../../../store/utils';
 import Toast from 'react-native-toast-message';
-import {statusBarHeight} from '../../../../utils/deviceHelpers';
 import {makeSelectIsTransferring} from '../../../../store/transfer/selectors';
+import {useSafeAreaValues} from '../../../../utils/deviceHelpers';
 
 const ListItem: FC<TListItemProps> = React.memo(
   ({item: activityItem, onPress}) => {
@@ -43,6 +43,8 @@ const ListItem: FC<TListItemProps> = React.memo(
     const navigation = useNavigation<TNavigationProp<ERootStackRoutes.Home>>();
 
     const dispatch = useDispatch();
+
+    const {statusBarHeight} = useSafeAreaValues();
 
     const isCurrentlyTransferring = useSelector(makeSelectIsTransferring);
     const selectedAccount = useShallowEqualSelector(makeSelectSelectedAccount);

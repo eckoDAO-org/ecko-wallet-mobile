@@ -8,7 +8,7 @@ export const GAS_LIMIT = 2500;
 export const ECONOMY_GAS_PRICE = 0.00000001;
 export const FAST_GAS_PRICE = 0.0001;
 
-export const REQUIRED_MESSAGE = 'required';
+export const REQUIRED_MESSAGE = 'Required';
 
 const GAS_STATION_PRICE = 0.0000001;
 const NORMAL_GAS_PRICE = 0.000001;

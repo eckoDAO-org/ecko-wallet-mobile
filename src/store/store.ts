@@ -10,6 +10,7 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
+  createMigrate,
 } from 'redux-persist';
 import {MMKV} from 'react-native-mmkv';
 import rootSaga from './saga';
@@ -20,6 +21,7 @@ import networks from './networks';
 import transfers from './transfer';
 import history from './history';
 import {Storage} from 'redux-persist/es/types';
+import {migrateWallets} from './userWallet/const';
 
 const plainStorage = new MMKV();
 const userStorage = new MMKV({
@@ -30,6 +32,24 @@ const authStorage = new MMKV({
   id: 'auth-storage',
   encryptionKey: ENCRYPTION_KEY,
 });
+
+const walletTokensMigrations = {
+  1: (state: any) => {
+    return {
+      ...state,
+      accounts: state.accounts.map((account: any) => ({
+        ...account,
+        wallets: migrateWallets(account.wallets),
+      })),
+      selectedAccount: state.selectedAccount
+        ? {
+            ...state.selectedAccount,
+            wallets: migrateWallets(state.selectedAccount.wallets),
+          }
+        : null,
+    };
+  },
+};
 
 const MMKVStorage = (storage: MMKV) =>
   ({
@@ -65,6 +85,8 @@ const userWalletPersistConfig = {
   key: 'userWallet',
   storage: MMKVStorage(userStorage),
   blacklist: ['initialized'],
+  version: 2,
+  migrate: createMigrate(walletTokensMigrations, {debug: true}),
 };
 
 const contactsPersistConfig = {

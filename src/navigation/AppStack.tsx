@@ -16,7 +16,9 @@ const AppStack = () => {
     <>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName={ERootStackRoutes.Welcome}>
+        initialRouteName={
+          isAuthorized ? ERootStackRoutes.Home : ERootStackRoutes.Welcome
+        }>
         {!isAuthorized ? (
           <>
             {AUTH_STACK_SCREENS.map(props => (

@@ -6,19 +6,23 @@ import {useDispatch} from 'react-redux';
 import Header from './components/Header';
 import FooterButton from '../../components/FooterButton';
 import Input from '../../components/Input';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {getRestoreAccount} from '../../store/userWallet/actions';
 import {recoverAccountSchema} from '../../validation/recoverAccountSchema';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {useNavigation} from '@react-navigation/native';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
 import {validateSeeds} from '../../api/kadena/validateSeeds';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const RecoverAccount = () => {
   const navigation =
     useNavigation<TNavigationProp<ERootStackRoutes.RecoverAccount>>();
 
   const dispatch = useDispatch();
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const {
     control,

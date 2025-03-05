@@ -5,21 +5,24 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  KeyboardAvoidingView,
 } from 'react-native';
-
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import Header from './components/Header';
-import {styles} from './styles';
-import {BarcodeFormat, useScanBarcodes} from 'vision-camera-code-scanner';
-import {Camera, useCameraDevices} from 'react-native-vision-camera';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+import {createStyles} from './styles';
+import {
+  Camera,
+  useCameraDevice,
+  useCodeScanner,
+} from 'react-native-vision-camera';
 import FooterButton from '../../components/FooterButton';
-import {bottomSpace} from '../../utils/deviceHelpers';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   ERootStackRoutes,
   TNavigationProp,
   TNavigationRouteProp,
 } from '../../routes/types';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const ReceiverScan = () => {
   const navigation =
@@ -29,25 +32,23 @@ const ReceiverScan = () => {
   const [hasPermission, setHasPermission] = useState(false);
   const [textUri, setTexTUri] = useState<string>('');
 
-  const devices = useCameraDevices();
-  const device = devices.back;
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
-  const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE], {
-    checkInverted: true,
-  });
+  const device = useCameraDevice('back');
 
-  useEffect(() => {
-    if (
-      barcodes &&
-      Array.isArray(barcodes) &&
-      barcodes.length > 0 &&
-      barcodes[0].rawValue
-    ) {
-      if (!textUri || textUri !== barcodes[0].rawValue) {
-        setTexTUri(barcodes[0].rawValue);
+  const codeScanner = useCodeScanner({
+    codeTypes: ['qr'],
+    onCodeScanned: codes => {
+      if (codes.length > 0 && codes[0]?.value && codes[0]?.value !== textUri) {
+        ReactNativeHapticFeedback.trigger('impactMedium', {
+          enableVibrateFallback: true,
+          ignoreAndroidSystemSettings: true,
+        });
+        setTexTUri(codes[0].value);
       }
-    }
-  }, [navigation, barcodes, textUri]);
+    },
+  });
 
   const onProceed = useCallback(async () => {
     if (textUri && route?.params?.onScan) {
@@ -59,7 +60,7 @@ const ReceiverScan = () => {
   useEffect(() => {
     (async () => {
       const status = await Camera.requestCameraPermission();
-      setHasPermission(status === 'authorized');
+      setHasPermission(status === 'granted');
     })();
   }, []);
 
@@ -69,8 +70,7 @@ const ReceiverScan = () => {
         style={styles.camera}
         device={device}
         isActive={true}
-        frameProcessor={frameProcessor}
-        frameProcessorFps={5}
+        codeScanner={codeScanner}
       />
     ) : (
       <View style={styles.camera} />
@@ -78,37 +78,39 @@ const ReceiverScan = () => {
   }, [device, hasPermission]);
 
   return (
-    <View style={styles.screen}>
-      <Header />
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={Keyboard.dismiss}
-        style={styles.container}>
-        {cameraView}
-        <View style={styles.footer}>
-          <View style={styles.inputContainer}>
-            <View style={styles.inputSection}>
-              <TextInput
-                style={styles.input}
-                autoFocus={false}
-                placeholder="Edit destination account"
-                value={textUri}
-                onChangeText={setTexTUri}
-              />
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={-bottomSpace}>
+      <View style={styles.screen}>
+        <Header />
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={Keyboard.dismiss}
+          style={styles.container}>
+          {cameraView}
+          <View style={styles.footer}>
+            <View style={styles.inputContainer}>
+              <View style={styles.inputSection}>
+                <TextInput
+                  style={styles.input}
+                  autoFocus={false}
+                  placeholder="Edit destination account"
+                  value={textUri}
+                  onChangeText={setTexTUri}
+                />
+              </View>
             </View>
+            <FooterButton
+              style={styles.footerButton}
+              title="Confirm"
+              disabled={!textUri}
+              onPress={onProceed}
+            />
           </View>
-          <FooterButton
-            style={styles.footerButton}
-            title="Confirm"
-            disabled={!textUri}
-            onPress={onProceed}
-          />
-          {Platform.OS === 'ios' && (
-            <KeyboardSpacer topSpacing={-bottomSpace} />
-          )}
-        </View>
-      </TouchableOpacity>
-    </View>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

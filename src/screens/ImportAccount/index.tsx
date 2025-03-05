@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux';
 import Header from './components/Header';
 import FooterButton from '../../components/FooterButton';
 import Input from '../../components/Input';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {importAccountSchema} from '../../validation/importAccountSchema';
 import {getImportAccount} from '../../store/userWallet/actions';
 import {TAccountImportRequest} from '../../store/userWallet/types';
@@ -17,6 +17,7 @@ import {chainIds} from '../Send/consts';
 import {useShallowEqualSelector} from '../../store/utils';
 import {useNavigation} from '@react-navigation/native';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const ImportAccount = () => {
   const navigation =
@@ -25,6 +26,9 @@ const ImportAccount = () => {
   const dispatch = useDispatch();
 
   const networkDetail = useShallowEqualSelector(makeSelectActiveNetworkDetails);
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const {
     control,

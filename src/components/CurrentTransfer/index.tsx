@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {
   makeSelectShowTransferBubble,
   makeSelectTransferResult,
@@ -12,6 +12,7 @@ import ProgressCircle from 'react-native-progress/CircleSnail';
 import {ERootStackRoutes} from '../../routes/types';
 import {useShallowEqualSelector} from '../../store/utils';
 import {makeSelectIsAuthorized} from '../../store/auth/selectors';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const hitSlop = {
   bottom: 8,
@@ -25,6 +26,9 @@ const CurrentTransfer = React.memo(() => {
   const navigation = useNavigation<any>();
 
   const isAuthorized = useSelector(makeSelectIsAuthorized);
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const transfer = useShallowEqualSelector(makeSelectTransferResult);
   const showBubble = useSelector(makeSelectShowTransferBubble);

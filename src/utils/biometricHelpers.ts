@@ -1,13 +1,14 @@
-import ReactNativeBiometrics from 'react-native-biometrics';
+import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
+const rnBiometrics = new ReactNativeBiometrics();
 
 export const getAvailableSensor = () => {
-  return ReactNativeBiometrics.isSensorAvailable().then(resultObject => {
+  return rnBiometrics.isSensorAvailable().then(resultObject => {
     const {available, biometryType} = resultObject;
     if (
       available &&
-      (biometryType === ReactNativeBiometrics.TouchID ||
-        biometryType === ReactNativeBiometrics.FaceID ||
-        biometryType === ReactNativeBiometrics.Biometrics)
+      (biometryType === BiometryTypes.TouchID ||
+        biometryType === BiometryTypes.FaceID ||
+        biometryType === BiometryTypes.Biometrics)
     ) {
       return biometryType;
     } else {
@@ -17,7 +18,8 @@ export const getAvailableSensor = () => {
 };
 
 export const keyExist = () => {
-  return ReactNativeBiometrics.biometricKeysExist()
+  return rnBiometrics
+    .biometricKeysExist()
     .then(resultObject => {
       const {keysExist} = resultObject;
       return keysExist;
@@ -26,7 +28,8 @@ export const keyExist = () => {
 };
 
 export const createKeys = () => {
-  return ReactNativeBiometrics.createKeys()
+  return rnBiometrics
+    .createKeys()
     .then(resultObject => {
       const {publicKey} = resultObject;
       return publicKey;

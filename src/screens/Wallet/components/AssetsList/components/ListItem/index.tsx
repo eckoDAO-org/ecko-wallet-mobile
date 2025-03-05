@@ -53,7 +53,7 @@ const ListItem: FC<TListItemProps> = React.memo(({walletItem, isFirst}) => {
   const canDelete = useMemo(
     () =>
       walletItem.tokenAddress !== 'coin' &&
-      walletItem.tokenAddress !== 'kaddex.kdx',
+      walletItem.tokenAddress !== 'runonflux.flux',
     [walletItem],
   );
 

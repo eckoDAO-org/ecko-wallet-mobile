@@ -8,19 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* kadenaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* kadenaTests.m */; };
-		06BCAC61AB0D4CFF98050181 /* Montserrat_SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 895321B64A304F3C99F96F9E /* Montserrat_SemiBold.ttf */; };
-		07816D58A52B47CEAF43E6BF /* Montserrat_Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A5D43C83B9B45E780FEE4D0 /* Montserrat_Thin.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2576A659674C4579A24ED18A /* Montserrat_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BEAE62ED9265433F92851A70 /* Montserrat_Light.ttf */; };
-		269CBA8DFF244935BD24DE66 /* Montserrat_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCF66FA6730B4E59A3519392 /* Montserrat_Regular.ttf */; };
-		386C6973E8164D1B97990037 /* Montserrat_ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CC90B3EF33E64A85A36CBDD4 /* Montserrat_ExtraBold.ttf */; };
-		574FD560E9AABF07073153E4 /* libPods-kadena.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EBCBB9C325810A231FF1B7FE /* libPods-kadena.a */; };
-		5B9A02F0E213E5A337B7437C /* libPods-kadena-kadenaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B4593488A2D5A3CAF62854 /* libPods-kadena-kadenaTests.a */; };
-		6ADBB55D055A4FA9B147B628 /* Montserrat_Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09D9C3BE452F4C4792CD4008 /* Montserrat_Medium.ttf */; };
-		D0CE3B67281A95780015E375 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0CE3B66281A95780015E375 /* BootSplash.storyboard */; };
-		E967EBEC5E0B4CB6B7BEDEFD /* Montserrat_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BACF34A9EAC444CEAEEA3C92 /* Montserrat_Bold.ttf */; };
+		242A71924C91853F1C95022D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		3F1489513A5825FBA43F105A /* libPods-kadena.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC59F1F5312631ED45549F5 /* libPods-kadena.a */; };
+		7794F915B064423692968B5A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2962AF05A11641F6B5D8114A /* Colors.xcassets */; };
+		BC7A364E2D3BF5DF006CD87B /* Montserrat_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC7A36472D3BF5DE006CD87B /* Montserrat_Regular.ttf */; };
+		BC7A364F2D3BF5DF006CD87B /* Montserrat_Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC7A36482D3BF5DE006CD87B /* Montserrat_Medium.ttf */; };
+		BC7A36502D3BF5DF006CD87B /* Montserrat_Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC7A36492D3BF5DE006CD87B /* Montserrat_Thin.ttf */; };
+		BC7A36512D3BF5DF006CD87B /* Montserrat_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC7A364A2D3BF5DE006CD87B /* Montserrat_Light.ttf */; };
+		BC7A36522D3BF5DF006CD87B /* Montserrat_ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC7A364B2D3BF5DF006CD87B /* Montserrat_ExtraBold.ttf */; };
+		BC7A36532D3BF5DF006CD87B /* Montserrat_SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC7A364C2D3BF5DF006CD87B /* Montserrat_SemiBold.ttf */; };
+		BC7A36542D3BF5DF006CD87B /* Montserrat_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC7A364D2D3BF5DF006CD87B /* Montserrat_Bold.ttf */; };
+		CE8734F9DD852D5EB576BBC9 /* libPods-kadena-kadenaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF5143799099C9E3644D12A /* libPods-kadena-kadenaTests.a */; };
+		F5F468E765524C29BE8E5BA7 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD450D751824CBEA563D2E0 /* BootSplash.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,28 +39,30 @@
 		00E356EE1AD99517003FC87E /* kadenaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kadenaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* kadenaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kadenaTests.m; sourceTree = "<group>"; };
-		09D9C3BE452F4C4792CD4008 /* Montserrat_Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Montserrat_Medium.ttf; path = ../src/assets/fonts/Montserrat_Medium.ttf; sourceTree = "<group>"; };
-		0ECC43B5A5BBA88774E59690 /* Pods-kadena.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kadena.release.xcconfig"; path = "Target Support Files/Pods-kadena/Pods-kadena.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* kadena.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kadena.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = kadena/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = kadena/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = kadena/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = kadena/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = kadena/main.m; sourceTree = "<group>"; };
-		17A075A818B6503F63624A4B /* Pods-kadena-kadenaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kadena-kadenaTests.debug.xcconfig"; path = "Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests.debug.xcconfig"; sourceTree = "<group>"; };
-		32FA592CF41D5EDF1A4E86A7 /* Pods-kadena-kadenaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kadena-kadenaTests.release.xcconfig"; path = "Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests.release.xcconfig"; sourceTree = "<group>"; };
-		660C393CC07DCE9634C8B8D7 /* Pods-kadena.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kadena.debug.xcconfig"; path = "Target Support Files/Pods-kadena/Pods-kadena.debug.xcconfig"; sourceTree = "<group>"; };
-		7A5D43C83B9B45E780FEE4D0 /* Montserrat_Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Montserrat_Thin.ttf; path = ../src/assets/fonts/Montserrat_Thin.ttf; sourceTree = "<group>"; };
-		84B4593488A2D5A3CAF62854 /* libPods-kadena-kadenaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-kadena-kadenaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		895321B64A304F3C99F96F9E /* Montserrat_SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Montserrat_SemiBold.ttf; path = ../src/assets/fonts/Montserrat_SemiBold.ttf; sourceTree = "<group>"; };
-		BACF34A9EAC444CEAEEA3C92 /* Montserrat_Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Montserrat_Bold.ttf; path = ../src/assets/fonts/Montserrat_Bold.ttf; sourceTree = "<group>"; };
-		BEAE62ED9265433F92851A70 /* Montserrat_Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Montserrat_Light.ttf; path = ../src/assets/fonts/Montserrat_Light.ttf; sourceTree = "<group>"; };
-		CC90B3EF33E64A85A36CBDD4 /* Montserrat_ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Montserrat_ExtraBold.ttf; path = ../src/assets/fonts/Montserrat_ExtraBold.ttf; sourceTree = "<group>"; };
-		D0CE3B66281A95780015E375 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = kadena/BootSplash.storyboard; sourceTree = "<group>"; };
-		D0D34CFA283F9A2400401FE2 /* kadena.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = kadena.entitlements; path = kadena/kadena.entitlements; sourceTree = "<group>"; };
-		DCF66FA6730B4E59A3519392 /* Montserrat_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Montserrat_Regular.ttf; path = ../src/assets/fonts/Montserrat_Regular.ttf; sourceTree = "<group>"; };
-		EBCBB9C325810A231FF1B7FE /* libPods-kadena.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-kadena.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = kadena/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		2962AF05A11641F6B5D8114A /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = kadena/Colors.xcassets; sourceTree = "<group>"; };
+		4CD450D751824CBEA563D2E0 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = kadena/BootSplash.storyboard; sourceTree = "<group>"; };
+		6AF5143799099C9E3644D12A /* libPods-kadena-kadenaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-kadena-kadenaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		725CC83B6734AD1F90699617 /* Pods-kadena.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kadena.release.xcconfig"; path = "Target Support Files/Pods-kadena/Pods-kadena.release.xcconfig"; sourceTree = "<group>"; };
+		73289524112D3A272EDCF43E /* Pods-kadena.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kadena.debug.xcconfig"; path = "Target Support Files/Pods-kadena/Pods-kadena.debug.xcconfig"; sourceTree = "<group>"; };
+		9BC59F1F5312631ED45549F5 /* libPods-kadena.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-kadena.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC7A36462D3BEBA1006CD87B /* kadena.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = kadena.entitlements; path = kadena/kadena.entitlements; sourceTree = "<group>"; };
+		BC7A36472D3BF5DE006CD87B /* Montserrat_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Montserrat_Regular.ttf; sourceTree = "<group>"; };
+		BC7A36482D3BF5DE006CD87B /* Montserrat_Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Montserrat_Medium.ttf; sourceTree = "<group>"; };
+		BC7A36492D3BF5DE006CD87B /* Montserrat_Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Montserrat_Thin.ttf; sourceTree = "<group>"; };
+		BC7A364A2D3BF5DE006CD87B /* Montserrat_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Montserrat_Light.ttf; sourceTree = "<group>"; };
+		BC7A364B2D3BF5DF006CD87B /* Montserrat_ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Montserrat_ExtraBold.ttf; sourceTree = "<group>"; };
+		BC7A364C2D3BF5DF006CD87B /* Montserrat_SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Montserrat_SemiBold.ttf; sourceTree = "<group>"; };
+		BC7A364D2D3BF5DF006CD87B /* Montserrat_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Montserrat_Bold.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F0982CE1874362F55E2F0837 /* Pods-kadena-kadenaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kadena-kadenaTests.debug.xcconfig"; path = "Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F2B04731918F3D40142DFAB2 /* Pods-kadena-kadenaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kadena-kadenaTests.release.xcconfig"; path = "Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,7 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B9A02F0E213E5A337B7437C /* libPods-kadena-kadenaTests.a in Frameworks */,
+				CE8734F9DD852D5EB576BBC9 /* libPods-kadena-kadenaTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,7 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				574FD560E9AABF07073153E4 /* libPods-kadena.a in Frameworks */,
+				3F1489513A5825FBA43F105A /* libPods-kadena.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,13 +105,15 @@
 		13B07FAE1A68108700A75B9A /* kadena */ = {
 			isa = PBXGroup;
 			children = (
-				D0D34CFA283F9A2400401FE2 /* kadena.entitlements */,
+				BC7A36462D3BEBA1006CD87B /* kadena.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				D0CE3B66281A95780015E375 /* BootSplash.storyboard */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				4CD450D751824CBEA563D2E0 /* BootSplash.storyboard */,
+				2962AF05A11641F6B5D8114A /* Colors.xcassets */,
 			);
 			name = kadena;
 			sourceTree = "<group>";
@@ -116,8 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				EBCBB9C325810A231FF1B7FE /* libPods-kadena.a */,
-				84B4593488A2D5A3CAF62854 /* libPods-kadena-kadenaTests.a */,
+				9BC59F1F5312631ED45549F5 /* libPods-kadena.a */,
+				6AF5143799099C9E3644D12A /* libPods-kadena-kadenaTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -138,7 +144,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
-				916257FFAD014E889F879689 /* Resources */,
+				BC7A36572D3BF9C1006CD87B /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -154,29 +160,29 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		916257FFAD014E889F879689 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				BACF34A9EAC444CEAEEA3C92 /* Montserrat_Bold.ttf */,
-				CC90B3EF33E64A85A36CBDD4 /* Montserrat_ExtraBold.ttf */,
-				BEAE62ED9265433F92851A70 /* Montserrat_Light.ttf */,
-				09D9C3BE452F4C4792CD4008 /* Montserrat_Medium.ttf */,
-				DCF66FA6730B4E59A3519392 /* Montserrat_Regular.ttf */,
-				895321B64A304F3C99F96F9E /* Montserrat_SemiBold.ttf */,
-				7A5D43C83B9B45E780FEE4D0 /* Montserrat_Thin.ttf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				660C393CC07DCE9634C8B8D7 /* Pods-kadena.debug.xcconfig */,
-				0ECC43B5A5BBA88774E59690 /* Pods-kadena.release.xcconfig */,
-				17A075A818B6503F63624A4B /* Pods-kadena-kadenaTests.debug.xcconfig */,
-				32FA592CF41D5EDF1A4E86A7 /* Pods-kadena-kadenaTests.release.xcconfig */,
+				73289524112D3A272EDCF43E /* Pods-kadena.debug.xcconfig */,
+				725CC83B6734AD1F90699617 /* Pods-kadena.release.xcconfig */,
+				F0982CE1874362F55E2F0837 /* Pods-kadena-kadenaTests.debug.xcconfig */,
+				F2B04731918F3D40142DFAB2 /* Pods-kadena-kadenaTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		BC7A36572D3BF9C1006CD87B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BC7A364D2D3BF5DF006CD87B /* Montserrat_Bold.ttf */,
+				BC7A364B2D3BF5DF006CD87B /* Montserrat_ExtraBold.ttf */,
+				BC7A364A2D3BF5DE006CD87B /* Montserrat_Light.ttf */,
+				BC7A36482D3BF5DE006CD87B /* Montserrat_Medium.ttf */,
+				BC7A36472D3BF5DE006CD87B /* Montserrat_Regular.ttf */,
+				BC7A364C2D3BF5DF006CD87B /* Montserrat_SemiBold.ttf */,
+				BC7A36492D3BF5DE006CD87B /* Montserrat_Thin.ttf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,12 +192,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "kadenaTests" */;
 			buildPhases = (
-				5F1AE07D712960F67032B06D /* [CP] Check Pods Manifest.lock */,
+				32C42DA2227F5B76510DB646 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				A3FE0E2547593BD95559924D /* [CP] Embed Pods Frameworks */,
-				2F0AA50B13356446BD28F8B2 /* [CP] Copy Pods Resources */,
+				3463F3CEB891E2CDA7A91138 /* [CP] Embed Pods Frameworks */,
+				2E080DFF4B838F068BD0151B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -207,14 +213,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "kadena" */;
 			buildPhases = (
-				709624B1AF444A5E53D498D0 /* [CP] Check Pods Manifest.lock */,
-				FD10A7F022414F080027D42C /* Start Packager */,
+				28B7959A3A3B7CE8B9F8BD81 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				937744CD4C74C5C3C1735E3D /* [CP] Embed Pods Frameworks */,
-				F1C5649B805FC853E6AB9920 /* [CP] Copy Pods Resources */,
+				40089DB545DBE80F4C0E66F2 /* [CP] Embed Pods Frameworks */,
+				2DD0F437FCB6C64F7BEF8AA3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -273,15 +278,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC7A364E2D3BF5DF006CD87B /* Montserrat_Regular.ttf in Resources */,
+				BC7A364F2D3BF5DF006CD87B /* Montserrat_Medium.ttf in Resources */,
+				BC7A36502D3BF5DF006CD87B /* Montserrat_Thin.ttf in Resources */,
+				BC7A36512D3BF5DF006CD87B /* Montserrat_Light.ttf in Resources */,
+				BC7A36522D3BF5DF006CD87B /* Montserrat_ExtraBold.ttf in Resources */,
+				BC7A36532D3BF5DF006CD87B /* Montserrat_SemiBold.ttf in Resources */,
+				BC7A36542D3BF5DF006CD87B /* Montserrat_Bold.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				D0CE3B67281A95780015E375 /* BootSplash.storyboard in Resources */,
-				E967EBEC5E0B4CB6B7BEDEFD /* Montserrat_Bold.ttf in Resources */,
-				386C6973E8164D1B97990037 /* Montserrat_ExtraBold.ttf in Resources */,
-				2576A659674C4579A24ED18A /* Montserrat_Light.ttf in Resources */,
-				6ADBB55D055A4FA9B147B628 /* Montserrat_Medium.ttf in Resources */,
-				269CBA8DFF244935BD24DE66 /* Montserrat_Regular.ttf in Resources */,
-				06BCAC61AB0D4CFF98050181 /* Montserrat_SemiBold.ttf in Resources */,
-				07816D58A52B47CEAF43E6BF /* Montserrat_Thin.ttf in Resources */,
+				F5F468E765524C29BE8E5BA7 /* BootSplash.storyboard in Resources */,
+				7794F915B064423692968B5A /* Colors.xcassets in Resources */,
+				242A71924C91853F1C95022D /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,54 +301,17 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/.xcode.env",
 			);
 			name = "Bundle React Native code and images";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		2F0AA50B13356446BD28F8B2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5F1AE07D712960F67032B06D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-kadena-kadenaTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		709624B1AF444A5E53D498D0 /* [CP] Check Pods Manifest.lock */ = {
+		28B7959A3A3B7CE8B9F8BD81 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -363,41 +333,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		937744CD4C74C5C3C1735E3D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-kadena/Pods-kadena-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-kadena/Pods-kadena-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-kadena/Pods-kadena-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A3FE0E2547593BD95559924D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F1C5649B805FC853E6AB9920 /* [CP] Copy Pods Resources */ = {
+		2DD0F437FCB6C64F7BEF8AA3 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -414,7 +350,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-kadena/Pods-kadena-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FD10A7F022414F080027D42C /* Start Packager */ = {
+		2E080DFF4B838F068BD0151B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		32C42DA2227F5B76510DB646 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -422,15 +375,52 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "Start Packager";
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-kadena-kadenaTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3463F3CEB891E2CDA7A91138 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-kadena-kadenaTests/Pods-kadena-kadenaTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		40089DB545DBE80F4C0E66F2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-kadena/Pods-kadena-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-kadena/Pods-kadena-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-kadena/Pods-kadena-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -466,16 +456,15 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 17A075A818B6503F63624A4B /* Pods-kadena-kadenaTests.debug.xcconfig */;
+			baseConfigurationReference = F0982CE1874362F55E2F0837 /* Pods-kadena-kadenaTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 5WUSBFQV44;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = kadenaTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -494,13 +483,12 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32FA592CF41D5EDF1A4E86A7 /* Pods-kadena-kadenaTests.release.xcconfig */;
+			baseConfigurationReference = F2B04731918F3D40142DFAB2 /* Pods-kadena-kadenaTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 5WUSBFQV44;
 				INFOPLIST_FILE = kadenaTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -519,25 +507,25 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 660C393CC07DCE9634C8B8D7 /* Pods-kadena.debug.xcconfig */;
+			baseConfigurationReference = 73289524112D3A272EDCF43E /* Pods-kadena.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = kadena/kadena.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 151;
-				DEVELOPMENT_TEAM = 483Q3633XV;
+				CURRENT_PROJECT_VERSION = 161;
+				DEVELOPMENT_TEAM = URVD95GYQ7;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = kadena/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = eckoWALLET;
+				INFOPLIST_KEY_CFBundleDisplayName = eckoWallet;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.9.1;
+				MARKETING_VERSION = 1.10.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -554,24 +542,24 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0ECC43B5A5BBA88774E59690 /* Pods-kadena.release.xcconfig */;
+			baseConfigurationReference = 725CC83B6734AD1F90699617 /* Pods-kadena.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = kadena/kadena.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 151;
-				DEVELOPMENT_TEAM = 483Q3633XV;
+				CURRENT_PROJECT_VERSION = 161;
+				DEVELOPMENT_TEAM = URVD95GYQ7;
 				INFOPLIST_FILE = kadena/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = eckoWALLET;
+				INFOPLIST_KEY_CFBundleDisplayName = eckoWallet;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.9.1;
+				MARKETING_VERSION = 1.10.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -590,7 +578,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -618,7 +606,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -634,7 +622,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -651,8 +639,14 @@
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
+					"-DFOLLY_CFG_NO_COROUTINES=1",
+					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
+				OTHER_LDFLAGS = "$(inherited)  ";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				USE_HERMES = true;
 			};
 			name = Debug;
 		};
@@ -661,7 +655,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -689,7 +683,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -698,7 +692,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -714,8 +708,13 @@
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
+					"-DFOLLY_CFG_NO_COROUTINES=1",
+					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
+				OTHER_LDFLAGS = "$(inherited)  ";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

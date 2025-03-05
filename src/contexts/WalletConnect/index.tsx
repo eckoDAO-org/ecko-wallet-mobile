@@ -1,6 +1,7 @@
+import '@walletconnect/react-native-compat';
 import React, {createContext, useCallback, useEffect, useState} from 'react';
 import {ICore} from '@walletconnect/types';
-import {IWeb3Wallet, Web3Wallet} from '@walletconnect/web3wallet';
+import {WalletKit, IWalletKit} from '@reown/walletkit';
 import {Core} from '@walletconnect/core';
 import {WALLETCONNECT_PROJECT_ID, WALLETCONNECT_PROJECT_RELAY} from '@env';
 import {getSavedValue} from '../../utils/storageHelplers';
@@ -24,7 +25,7 @@ type CreateParams = {
 
 export const WalletConnectContext = createContext<{
   walletConnectCore: ICore | null | undefined;
-  web3WalletClient: IWeb3Wallet | null | undefined;
+  web3WalletClient: IWalletKit | null | undefined;
   initializeClient: (params?: CreateParams) => Promise<void> | void;
   isInitialized: boolean;
   isConnected: boolean;
@@ -44,7 +45,7 @@ export const WalletConnectProvider = (props: any) => {
   const [walletConnectCore, setWalletConnectCore] = useState<ICore | null>(
     null,
   );
-  const [web3WalletClient, setWeb3WalletClient] = useState<IWeb3Wallet | null>(
+  const [web3WalletClient, setWeb3WalletClient] = useState<IWalletKit | null>(
     null,
   );
 
@@ -54,7 +55,7 @@ export const WalletConnectProvider = (props: any) => {
       projectId: params?.projectId || defaultWalletConnectParams.projectId,
       relayUrl: params?.relayUrl || defaultWalletConnectParams.relayUrl,
     });
-    const initWeb3WalletClient = await Web3Wallet.init({
+    const initWeb3WalletClient = await WalletKit.init({
       core: initWalletConnectCore,
       metadata: defaultWalletConnectParams.metadata,
     });

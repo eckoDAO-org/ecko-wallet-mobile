@@ -316,7 +316,7 @@ function* getTokenList({payload}: TAction<TSearchTokenListParams>) {
       pactCode: '(list-modules)',
     } as any);
     const tokenList = (tokenListData || []).filter(
-      (item: string) => item !== 'coin' && item !== 'kaddex.kdx',
+      (item: string) => item !== 'coin' && item !== 'runonflux.flux',
     );
     yield put(setSearchTokenList(tokenList));
     yield put(setNonTransferableTokenList(nonTransferableTokens || []));

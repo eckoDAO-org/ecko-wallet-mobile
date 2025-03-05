@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {Linking, Text, TouchableOpacity, View} from 'react-native';
 import packageJson from '../../../../../package.json';
 import GlobeSvg from '../../../../assets/images/globe.svg';
+import DiscordSvg from '../../../../assets/images/discord.svg';
 import {styles} from './styles';
 
 const Footer: FC = React.memo(() => {
@@ -16,6 +17,13 @@ const Footer: FC = React.memo(() => {
           style={styles.tip}>
           <GlobeSvg width="24" height="24" />
           <Text style={styles.tipTitle}>Visit our website</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => Linking.openURL('https://discord.gg/runonflux')}
+          activeOpacity={0.8}
+          style={styles.tip}>
+          <DiscordSvg width="24" height="24" />
+          <Text style={styles.tipTitle}>Join us on Discord</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>

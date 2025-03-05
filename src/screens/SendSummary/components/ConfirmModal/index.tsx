@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {Text, View} from 'react-native';
 
 import Modal from '../../../../components/Modal';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {TConfirmModal} from './types';
 import Button from '../../../Wallet/components/WalletBalance/components/Button';
 import AccountFromTo from '../../../../components/AccountFromTo';
@@ -18,6 +18,7 @@ import {
 } from '../../../../store/transfer/selectors';
 import Warning from '../../../../components/Warning';
 import {useSelector} from 'react-redux';
+import {useSafeAreaValues} from '../../../../utils/deviceHelpers';
 
 const ConfirmModal: FC<TConfirmModal> = ({isVisible, close, onConfirm}) => {
   const sourceAccount = useShallowEqualSelector(makeSelectSelectedAccount);
@@ -26,6 +27,9 @@ const ConfirmModal: FC<TConfirmModal> = ({isVisible, close, onConfirm}) => {
   const estimatedGas = useShallowEqualSelector(makeSelectEstimatedGasFee);
   const isCrossChainTransfer = useSelector(makeSelectIsCrossChainTransfer);
   const {gasLimit, gasPrice, speed} = estimatedGas;
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   return (
     <Modal

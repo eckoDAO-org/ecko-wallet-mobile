@@ -1,10 +1,6 @@
 import {AppState, Platform} from 'react-native';
 import {useEffect, useState} from 'react';
-import {
-  getBottomSpace,
-  getStatusBarHeight,
-  isIphoneX,
-} from 'react-native-iphone-x-helper';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export function useAppState() {
   const [appState, setAppState] = useState<any>('active');
@@ -24,6 +20,12 @@ export function useAppState() {
   return appState;
 }
 
-export const bottomSpace = getBottomSpace();
-export const statusBarHeight =
-  getStatusBarHeight() + (isIphoneX() ? 8 : Platform.OS === 'android' ? 4 : 0);
+export const useSafeAreaValues = () => {
+  const insets = useSafeAreaInsets();
+
+  const bottomSpace = insets.bottom;
+  const statusBarHeight =
+    insets.top + (insets.top > 20 ? 8 : Platform.OS === 'android' ? 4 : 0);
+
+  return {bottomSpace, statusBarHeight};
+};

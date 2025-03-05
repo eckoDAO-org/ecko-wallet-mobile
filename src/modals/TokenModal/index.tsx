@@ -21,6 +21,7 @@ import ArrowTopBottomRightSvg from '../../assets/images/arrow-top-right.svg';
 import Warning from '../../components/Warning';
 import ListItem from '../../components/ListItem';
 import PencilEditSvg from '../../assets/images/pencil-edit.svg';
+import {defaultWallets} from '../../store/userWallet/const';
 
 const TokenModal: FC<TTokenModalProps> = React.memo(
   ({toggle, isVisible, canDelete}) => {
@@ -97,6 +98,10 @@ const TokenModal: FC<TTokenModalProps> = React.memo(
       );
     }, [toggle, selectedToken]);
 
+    const isDefaultToken = defaultWallets.find(
+      t => t.tokenAddress === selectedToken?.tokenAddress,
+    );
+
     const handlePressEdit = useCallback(() => {
       toggle();
       setTimeout(() => navigation.navigate(ERootStackRoutes.AddToken), 150);
@@ -148,18 +153,23 @@ const TokenModal: FC<TTokenModalProps> = React.memo(
                   centerText={true}
                   title={`${selectedToken?.tokenName} Balance is 0`}
                 />
-                <ListItem
-                  text="Edit Token"
-                  icon={<PencilEditSvg />}
-                  style={styles.itemStyle}
-                  onPress={handlePressEdit}
-                />
-                <ListItem
-                  text="Remove Token"
-                  icon={<TrashEmptySvg />}
-                  style={styles.itemStyle}
-                  onPress={handlePressRemove}
-                />
+                {!isDefaultToken ? (
+                  <>
+                    {' '}
+                    <ListItem
+                      text="Edit Token"
+                      icon={<PencilEditSvg />}
+                      style={styles.itemStyle}
+                      onPress={handlePressEdit}
+                    />
+                    <ListItem
+                      text="Remove Token"
+                      icon={<TrashEmptySvg />}
+                      style={styles.itemStyle}
+                      onPress={handlePressRemove}
+                    />
+                  </>
+                ) : null}
               </>
             ) : (
               (selectedTokenDistributions || []).map(distribution => (

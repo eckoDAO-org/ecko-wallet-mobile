@@ -2,10 +2,11 @@ import React, {FC} from 'react';
 import {Text, View} from 'react-native';
 
 import Modal from '../../../../components/Modal';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {TConfirmModal} from './types';
 import Info from '../Info';
 import Button from '../../../Wallet/components/WalletBalance/components/Button';
+import {useSafeAreaValues} from '../../../../utils/deviceHelpers';
 
 const ConfirmModal: FC<TConfirmModal> = ({
   isVisible,
@@ -15,6 +16,8 @@ const ConfirmModal: FC<TConfirmModal> = ({
   secondToken,
   onConfirm,
 }) => {
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
   return (
     <Modal
       isVisible={isVisible}

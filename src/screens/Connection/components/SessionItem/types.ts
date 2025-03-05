@@ -3,6 +3,7 @@ export type TSessionItem = {
   name?: string;
   url?: string;
   topic?: string;
+  type?: string;
 };
 
 export type TSessionItemProps = {

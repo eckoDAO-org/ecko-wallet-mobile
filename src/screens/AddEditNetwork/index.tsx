@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 import Header from './components/Header';
 import FooterButton from '../../components/FooterButton';
 import Input from '../../components/Input';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {addCreateNetworkSchema} from '../../validation/addCreateNetworkSchema';
 import {makeSelectSelectedNetwork} from '../../store/networks/selectors';
 import {createNetwork, updateSelectedNetwork} from '../../store/networks';
@@ -19,6 +19,7 @@ import {
   TNavigationRouteProp,
 } from '../../routes/types';
 import axios from 'axios';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const AddEditNetwork = () => {
   const navigation =
@@ -30,6 +31,9 @@ const AddEditNetwork = () => {
   const dispatch = useDispatch();
 
   const selectedNetwork = useShallowEqualSelector(makeSelectSelectedNetwork);
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const isEditable = useMemo(
     () => isCreate || !selectedNetwork?.isDefault,

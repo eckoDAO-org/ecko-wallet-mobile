@@ -2,14 +2,17 @@ import React, {FC, useCallback} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import ArrowLeftSvg from '../../../../assets/images/arrow-left.svg';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {makeSelectSelectedToken} from '../../../../store/userWallet/selectors';
 import {useShallowEqualSelector} from '../../../../store/utils';
 import {ERootStackRoutes, TNavigationProp} from '../../../../routes/types';
+import {useSafeAreaValues} from '../../../../utils/deviceHelpers';
 
 const Header: FC = React.memo(() => {
   const navigation = useNavigation<TNavigationProp<ERootStackRoutes.Send>>();
   const selectedToken = useShallowEqualSelector(makeSelectSelectedToken);
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const handlePressBack = useCallback(() => {
     navigation.goBack();

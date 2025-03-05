@@ -9,7 +9,7 @@ import AccountFromTo from '../../components/AccountFromTo';
 import WalletInfo from './components/WalletInfo';
 import Content from './components/Content';
 import Warning from '../../components/Warning';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
 import {
   makeSelectEstimatedGasFee,
@@ -26,6 +26,7 @@ import {setTransferResult} from '../../store/transfer';
 import {useShallowEqualSelector} from '../../store/utils';
 import {useNavigation} from '@react-navigation/native';
 import ConfirmModal from './components/ConfirmModal';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const SendSummary = () => {
   const navigation =
@@ -39,6 +40,9 @@ const SendSummary = () => {
   const estimatedGasFee = useShallowEqualSelector(makeSelectEstimatedGasFee);
   const sourceAccount = useShallowEqualSelector(makeSelectSelectedAccount);
   const sourceToken = useShallowEqualSelector(makeSelectSelectedToken);
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const [showConfirmationModal, setShowConfirmationModal] =
     useState<boolean>(false);

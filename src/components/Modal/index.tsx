@@ -3,8 +3,9 @@ import {View, Text, TouchableOpacity, ScrollView, Keyboard} from 'react-native';
 import RNModal from 'react-native-modal';
 import CircleXSvg from '../../assets/images/circle-x.svg';
 import {TModalProps} from './types';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const Modal: FC<TModalProps> = ({
   close,
@@ -16,6 +17,9 @@ const Modal: FC<TModalProps> = ({
   contentStyle,
   ...restProps
 }) => {
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
+
   useEffect(() => {
     if (restProps?.isVisible) {
       ReactNativeHapticFeedback.trigger('impactMedium', {

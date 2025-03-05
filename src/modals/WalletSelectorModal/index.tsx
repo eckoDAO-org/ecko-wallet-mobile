@@ -118,7 +118,7 @@ const WalletSelectorModal: FC<TWalletSelectorModalProps> = React.memo(
             {(accounts || []).map((account: TAccount) => (
               <Checkbox
                 isChecked={account.accountName === selectedAccount?.accountName}
-                disableBuiltInState
+                useBuiltInState={false}
                 onPress={handlePressCheckBox(account)}
                 key={account.accountName}
                 text={cutStr(account.accountName)}

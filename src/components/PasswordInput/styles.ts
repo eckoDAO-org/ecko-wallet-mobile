@@ -21,10 +21,10 @@ export const styles = StyleSheet.create({
     fontSize: 12,
   },
   inputContainer: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     marginTop: 16,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     width: '100%',
   },
   input: {

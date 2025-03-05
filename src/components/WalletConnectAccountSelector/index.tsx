@@ -40,7 +40,7 @@ const WalletConnectAccountSelectorModal: FC<TWalletConnectAccountSelectorProps> 
           {(accounts || []).map((account: TAccount) => (
             <Checkbox
               key={account.accountName}
-              disableBuiltInState
+              useBuiltInState={false}
               onPress={handlePressCheckBox(account)}
               isChecked={selectedAccounts.some(
                 item => item.accountName === account.accountName,

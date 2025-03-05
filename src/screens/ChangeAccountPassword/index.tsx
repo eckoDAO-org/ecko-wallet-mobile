@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import FooterButton from '../../components/FooterButton';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import PasswordInput from '../../components/PasswordInput';
 import {Controller, useForm} from 'react-hook-form';
 import {resetAccountPassword} from '../../validation/resetAccountPassword';
@@ -19,13 +19,13 @@ import ArrowLeftSvg from '../../assets/images/arrow-left.svg';
 import {useNavigation} from '@react-navigation/native';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
 import Toast from 'react-native-toast-message';
-import {statusBarHeight} from '../../utils/deviceHelpers';
 import {setPassword} from '../../store/auth';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {useDispatch, useSelector} from 'react-redux';
 import {makeSelectHashPassword} from '../../store/auth/selectors';
 import {comparePassword} from '../../api/kadena/comparePassword';
 import {hashPassword} from '../../api/kadena/hashPassword';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const fields: TFields[] = [
   {
@@ -58,6 +58,8 @@ const ChangeAccountPassword = () => {
   }, [navigation]);
 
   const hash = useSelector(makeSelectHashPassword);
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const handlePressChange = useCallback(
     (data: TChangeAccountPasswordForm) => {

@@ -20,7 +20,10 @@ import {
 } from '../constants/styles';
 import WalletConnectAccountSelector from '../components/WalletConnectAccountSelector';
 import {TAccount} from '../store/userWallet/types';
-import {formatJsonRpcResult} from '@json-rpc-tools/utils';
+import {
+  formatJsonRpcResult,
+  formatJsonRpcError,
+} from '@walletconnect/jsonrpc-utils';
 import JSONTree from 'react-native-json-tree';
 import {getNetwork} from './networkHelpers';
 import {getSignRequest} from '../store/transfer/services';
@@ -30,10 +33,10 @@ import {useShallowEqualSelector} from '../store/utils';
 import {setSendResult} from '../store/history';
 import WalletConnectHelpModal from '../components/WalletConnectHelpModal';
 import {quickSign} from '../api/kadena/quickSign';
-import {formatJsonRpcError} from '@json-rpc-tools/utils/dist/cjs/format';
 import {defaultChainIds} from '../api/constants';
 import {useWalletConnectContext} from '../contexts';
 import {makeSelectActiveNetwork} from '../store/networks/selectors';
+import {WalletKitTypes} from '@reown/walletkit';
 
 const JSONTreeTheme = {
   tree: {
@@ -114,17 +117,20 @@ export const useWalletConnect = () => {
   const [modalContentType, setModalContentType] = useState<string | null>('');
   const [modalContentProps, setModalContentProps] = useState<any>({});
 
-  const onSessionProposal = useCallback(proposal => {
-    if (proposal) {
-      setModalTitle('Session Proposal');
-      setModalContentProps({
-        proposal,
-        selectedAccounts: [],
-      });
-      setModalContentType('session_proposal');
-      setIsVisible(true);
-    }
-  }, []);
+  const onSessionProposal = useCallback(
+    (proposal: WalletKitTypes.SessionProposal) => {
+      if (proposal) {
+        setModalTitle('Session Proposal');
+        setModalContentProps({
+          proposal,
+          selectedAccounts: [],
+        });
+        setModalContentType('session_proposal');
+        setIsVisible(true);
+      }
+    },
+    [],
+  );
 
   const onSessionRequest = useCallback(
     async (requestEvent: any) => {
@@ -507,7 +513,7 @@ export const useWalletConnect = () => {
   ]);
 
   const onSelectAccounts = useCallback(
-    accounts => {
+    (accounts: TAccount[]) => {
       setModalContentProps({
         ...modalContentProps,
         selectedAccounts: accounts,
@@ -582,7 +588,6 @@ const windowHeight = Dimensions.get('window').height;
 export const styles = StyleSheet.create({
   content: {
     paddingVertical: 12,
-    alignItems: 'flex-start',
   },
   contentWrapper: {
     width: '100%',

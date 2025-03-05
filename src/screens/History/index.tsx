@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 import Header from './components/Header';
 import ListDay from './components/ListDay';
 
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {
   makeSelectListDayActivities,
   makeSelectListDayPendingActivities,
@@ -15,6 +15,8 @@ import {
 import {getPollRequest} from '../../store/history/actions';
 import {headerTabs} from './const';
 import {useShallowEqualSelector} from '../../store/utils';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
+import {TListDayItem} from './components/ListDay/types';
 
 const History = () => {
   const dispatch = useDispatch();
@@ -40,13 +42,18 @@ const History = () => {
     pollReqParams && dispatch(getPollRequest(pollReqParams));
   }, [pollReqParams]);
 
-  const renderItem = useCallback(({item}) => <ListDay item={item} />, []);
+  const renderItem = useCallback(
+    ({item}: {item: TListDayItem}) => <ListDay item={item} />,
+    [],
+  );
 
-  const keyExtractor = useCallback(item => {
+  const keyExtractor = useCallback((item: TListDayItem) => {
     return `${item.day}-${(item.list || []).map(
       (subItem: any) => subItem.txId || subItem.requestKey,
     )}`;
   }, []);
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   return (
     <View style={styles.container}>

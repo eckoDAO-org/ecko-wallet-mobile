@@ -50,6 +50,7 @@ export const getToken: (params: TokenQueryParams) => Promise<boolean> = async ({
           const result = response.result;
           return !!(
             result?.error?.message?.startsWith('with-read: row not found') ||
+            result?.error?.message?.startsWith('No value found in table') ||
             result?.status === 'success'
           );
         } catch (e) {

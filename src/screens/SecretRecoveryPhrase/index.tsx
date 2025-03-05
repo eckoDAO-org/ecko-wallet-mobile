@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Logo from '../../assets/images/logo.svg';
 import ArrowLeftSvg from '../../assets/images/arrow-left.svg';
 
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
 import {getGeneratePasswords} from '../../store/auth/actions';
 import {
@@ -24,6 +24,7 @@ import {
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {useShallowEqualSelector} from '../../store/utils';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const bgImage = require('../../assets/images/bgimage.png');
 
@@ -37,6 +38,9 @@ const SecretRecoveryPhrase = () => {
   const isLoading = useSelector(makeSelectGeneratedPhrasesLoading);
 
   const [isRevealed, setRevealed] = useState(false);
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const handlePressBack = useCallback(() => {
     navigation.goBack();

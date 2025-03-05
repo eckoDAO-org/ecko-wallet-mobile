@@ -5,27 +5,26 @@ import {
   ImageBackground,
   TouchableOpacity,
   ScrollView,
-  Platform,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {useForm, Controller, FieldValues} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import Logo from '../../assets/images/logo.svg';
 import ArrowLeftSvg from '../../assets/images/arrow-left.svg';
 
-import {styles} from './styles';
+import {createStyles} from './styles';
 import PasswordInput from '../../components/PasswordInput';
 import {signInPasswordSchema} from '../../validation/signInPasswordSchema';
 import {login} from '../../store/auth';
 import {makeSelectHashPassword} from '../../store/auth/selectors';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
-import {useScrollBottomOnKeyboard} from '../../utils/keyboardHelpers';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {useNavigation} from '@react-navigation/native';
-import {bottomSpace} from '../../utils/deviceHelpers';
 import {comparePassword} from '../../api/kadena/comparePassword';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const bgImage = require('../../assets/images/bgimage.png');
 
@@ -109,48 +108,54 @@ const SignIn = () => {
   );
 
   const scrollRef = useRef<ScrollView | null>(null);
-  useScrollBottomOnKeyboard(scrollRef);
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   return (
     <ImageBackground source={bgImage} resizeMode="cover" style={styles.bgImage}>
-      <ScrollView
-        ref={scrollRef}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        style={styles.contentWrapper}
-        contentContainerStyle={styles.content}>
-        <Logo width={50} height={50} />
-        <Text style={styles.text}>Welcome</Text>
-        <Controller
-          control={control}
-          name="password"
-          render={({field: {onChange, onBlur, value}}) => (
-            <PasswordInput
-              autoFocus={true}
-              label="Password"
-              onChangeText={onChange}
-              value={value}
-              onBlur={onBlur}
-              blurOnSubmit={true}
-              wrapperStyle={styles.password}
-              errorMessage={errors.password?.message as string}
-              onSubmitEditing={handleSubmit(handlePressSignIn)}
-            />
-          )}
-        />
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.button}
-          onPress={handleSubmit(handlePressSignIn)}>
-          <Text style={styles.buttonText}>Sign in</Text>
-        </TouchableOpacity>
-        {Platform.OS === 'ios' && <KeyboardSpacer topSpacing={-bottomSpace} />}
-      </ScrollView>
-      <View style={styles.header}>
-        <TouchableOpacity activeOpacity={0.8} onPress={handlePressBack}>
-          <ArrowLeftSvg fill="white" />
-        </TouchableOpacity>
-      </View>
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={-bottomSpace}>
+        <ScrollView
+          ref={scrollRef}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          style={styles.contentWrapper}
+          contentContainerStyle={styles.content}>
+          <Logo width={50} height={50} />
+          <Text style={styles.text}>Welcome</Text>
+          <Controller
+            control={control}
+            name="password"
+            render={({field: {onChange, onBlur, value}}) => (
+              <PasswordInput
+                autoFocus={true}
+                label="Password"
+                onChangeText={onChange}
+                value={value}
+                onBlur={onBlur}
+                wrapperStyle={styles.password}
+                errorMessage={errors.password?.message as string}
+                onSubmitEditing={handleSubmit(handlePressSignIn)}
+              />
+            )}
+          />
+        </ScrollView>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.button}
+            onPress={handleSubmit(handlePressSignIn)}>
+            <Text style={styles.buttonText}>Sign in</Text>
+          </TouchableOpacity>
+        </View>  
+        <View style={styles.header}>
+          <TouchableOpacity activeOpacity={0.8} onPress={handlePressBack}>
+            <ArrowLeftSvg fill="white" />
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 };

@@ -31,11 +31,28 @@ export const defaultWallets: TWallet[] = [
     chainBalance: defaultBalances,
   },
   {
-    tokenAddress: 'kaddex.kdx',
-    tokenName: 'KDX',
+    tokenAddress: 'runonflux.flux',
+    tokenName: 'FLUX',
     totalAmount: 0,
     chainBalance: defaultBalances,
   },
 ];
 
 export const reverseCoins: string[] = ['arkade.token'];
+
+export const migrateWallets = (wallets: TWallet[]) => {
+  if (!wallets) return defaultWallets;
+
+  const filteredWallets = wallets.filter(w => w.tokenAddress !== 'kaddex.kdx');
+
+  if (!filteredWallets.some(w => w.tokenAddress === 'runonflux.flux')) {
+    filteredWallets.push({
+      tokenAddress: 'runonflux.flux',
+      tokenName: 'FLUX',
+      totalAmount: 0,
+      chainBalance: defaultBalances,
+    });
+  }
+
+  return filteredWallets;
+};

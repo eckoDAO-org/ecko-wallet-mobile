@@ -4,13 +4,14 @@ import {useForm, Controller, FieldValues} from 'react-hook-form';
 import Header from './components/Header';
 import FooterButton from '../../components/FooterButton';
 import Input from '../../components/Input';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {getSavedValue, saveValue} from '../../utils/storageHelplers';
 import {walletConnectSchema} from '../../validation/walletConnectSchema';
 import {useNavigation} from '@react-navigation/native';
 import {useWalletConnectContext} from '../../contexts';
 import {defaultWalletConnectParams} from '../../contexts/WalletConnect';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const WalletConnectSettings = () => {
   const {initializeClient} = useWalletConnectContext();
@@ -58,6 +59,9 @@ const WalletConnectSettings = () => {
     },
     [navigation],
   );
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   return (
     <View style={styles.screen}>

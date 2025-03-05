@@ -5,27 +5,26 @@ import {
   ImageBackground,
   TouchableOpacity,
   ScrollView,
-  Platform,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useForm, Controller, FieldValues} from 'react-hook-form';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import Logo from '../../assets/images/logo.svg';
 import ArrowLeftSvg from '../../assets/images/arrow-left.svg';
 
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
 import {changePassword} from '../../store/auth';
 import {makeSelectHasAccount} from '../../store/userWallet/selectors';
 import PasswordInput from '../../components/PasswordInput';
 import {createPasswordSchema} from '../../validation/createPasswordSchema';
-import {useScrollBottomOnKeyboard} from '../../utils/keyboardHelpers';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {useNavigation} from '@react-navigation/native';
-import {bottomSpace} from '../../utils/deviceHelpers';
 import {hashPassword} from '../../api/kadena/hashPassword';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const bgImage = require('../../assets/images/bgimage.png');
 
@@ -34,6 +33,9 @@ const Registration = () => {
     useNavigation<TNavigationProp<ERootStackRoutes.Registration>>();
   const dispatch = useDispatch();
   const hasAccount = useSelector(makeSelectHasAccount);
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const {
     control,
@@ -87,7 +89,6 @@ const Registration = () => {
   );
 
   const scrollRef = useRef<ScrollView | null>(null);
-  useScrollBottomOnKeyboard(scrollRef);
 
   if (hasAccount) {
     navigation.replace(ERootStackRoutes.SignIn);
@@ -96,60 +97,67 @@ const Registration = () => {
 
   return (
     <ImageBackground source={bgImage} resizeMode="cover" style={styles.bgImage}>
-      <ScrollView
-        ref={scrollRef}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        style={styles.contentWrapper}
-        contentContainerStyle={styles.content}>
-        <Logo width={50} height={50} />
-        <Text style={styles.text}>Create Password</Text>
-        <Controller
-          control={control}
-          name="password"
-          render={({field: {onChange, onBlur, value}}) => (
-            <PasswordInput
-              wrapperStyle={styles.password}
-              autoFocus={true}
-              label="New Password"
-              onChangeText={onChange}
-              value={value}
-              onBlur={onBlur}
-              blurOnSubmit={true}
-              errorMessage={errors.password?.message as string}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="confirmPassword"
-          render={({field: {onChange, onBlur, value}}) => (
-            <PasswordInput
-              wrapperStyle={styles.confirmPassword}
-              label="Confirm Password"
-              onChangeText={onChange}
-              value={value}
-              onBlur={onBlur}
-              blurOnSubmit={true}
-              errorMessage={errors.confirmPassword?.message as string}
-              onSubmitEditing={handleSubmit(handlePressCreate)}
-            />
-          )}
-        />
-        <TouchableOpacity
-          activeOpacity={0.8}
-          disabled={!isValid}
-          style={[styles.button, !isValid && styles.disabledBtn]}
-          onPress={handleSubmit(handlePressCreate)}>
-          <Text style={styles.buttonText}>Create</Text>
-        </TouchableOpacity>
-        {Platform.OS === 'ios' && <KeyboardSpacer topSpacing={-bottomSpace} />}
-      </ScrollView>
-      <View style={styles.header}>
-        <TouchableOpacity activeOpacity={0.8} onPress={handlePressBack}>
-          <ArrowLeftSvg fill="white" />
-        </TouchableOpacity>
-      </View>
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={-bottomSpace}>
+        <ScrollView
+          ref={scrollRef}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          style={styles.contentWrapper}
+          contentContainerStyle={styles.content}>
+          <Logo width={50} height={50} />
+          <Text style={styles.text}>Create Password</Text>
+          <Controller
+            control={control}
+            name="password"
+            render={({field: {onChange, onBlur, value}}) => (
+              <PasswordInput
+                wrapperStyle={styles.password}
+                autoFocus={true}
+                label="New Password"
+                onChangeText={onChange}
+                value={value}
+                onBlur={onBlur}
+                blurOnSubmit={true}
+                errorMessage={errors.password?.message as string}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="confirmPassword"
+            render={({field: {onChange, onBlur, value}}) => (
+              <PasswordInput
+                wrapperStyle={styles.confirmPassword}
+                label="Confirm Password"
+                onChangeText={onChange}
+                value={value}
+                onBlur={onBlur}
+                blurOnSubmit={true}
+                errorMessage={errors.confirmPassword?.message as string}
+                onSubmitEditing={handleSubmit(handlePressCreate)}
+              />
+            )}
+          />
+        </ScrollView>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            disabled={!isValid}
+            style={[styles.button, !isValid && styles.disabledBtn]}
+            onPress={handleSubmit(handlePressCreate)}>
+            <Text style={styles.buttonText}>Create</Text>
+          </TouchableOpacity>
+        </View>
+  
+        <View style={styles.header}>
+          <TouchableOpacity activeOpacity={0.8} onPress={handlePressBack}>
+            <ArrowLeftSvg fill="white" />
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 };

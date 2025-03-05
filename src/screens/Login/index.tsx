@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import {View, Text, ImageBackground, TouchableOpacity} from 'react-native';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import ArrowLeftSvg from '../../assets/images/arrow-left.svg';
 import SecurityUnlockSvg from '../../assets/images/security-unlock.svg';
 import Numpad from '../../components/Numpad';
@@ -15,6 +15,7 @@ import {
   TNavigationProp,
   TNavigationRouteProp,
 } from '../../routes/types';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const bgImage = require('../../assets/images/bgimage.png');
 
@@ -26,6 +27,9 @@ const Login = () => {
 
   const storedPinCode = useSelector(makeSelectPinCode);
   const newPinCode = useSelector(makeSelectNewPinCode);
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const title = useMemo(
     () =>

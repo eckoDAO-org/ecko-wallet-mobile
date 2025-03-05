@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {RefreshControl, ScrollView, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 

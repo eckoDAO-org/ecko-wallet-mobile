@@ -51,7 +51,7 @@ const NetworkSelectorModal: FC<TNetworkSelectorModalProps> = React.memo(
                 textStyle={styles.checkBoxText}
                 style={styles.checkBoxWrapper}
                 onPress={handlePressCheckBox(network)}
-                disableBuiltInState
+                useBuiltInState={false}
               />
             ))}
           </View>

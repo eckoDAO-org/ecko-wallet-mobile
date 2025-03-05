@@ -1,3 +1,3 @@
-import {IBouncyCheckboxProps} from 'react-native-bouncy-checkbox';
+import {BouncyCheckboxProps} from 'react-native-bouncy-checkbox';
 
-export type TCheckboxProps = IBouncyCheckboxProps;
+export type TCheckboxProps = BouncyCheckboxProps;

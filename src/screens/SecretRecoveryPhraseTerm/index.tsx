@@ -9,11 +9,11 @@ import {
 
 import Logo from '../../assets/images/logo.svg';
 import ArrowLeftSvg from '../../assets/images/arrow-left.svg';
-
-import {styles} from './styles';
+import {createStyles} from './styles';
 import Checkbox from '../../components/Checkbox';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const bgImage = require('../../assets/images/bgimage.png');
 
@@ -22,6 +22,9 @@ const SecretRecoveryPhraseTerm = () => {
     useNavigation<TNavigationProp<ERootStackRoutes.SecretRecoveryPhraseTerm>>();
 
   const [isChecked, setChecked] = useState(false);
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const handlePressBack = useCallback(() => {
     navigation.goBack();

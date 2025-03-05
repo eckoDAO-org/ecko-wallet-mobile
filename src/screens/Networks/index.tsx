@@ -6,10 +6,11 @@ import Header from './components/Header';
 import Item from './components/Item';
 import NetworkDetailsModal from '../../modals/NetworkDetailsModal';
 import {makeSelectNetworksList} from '../../store/networks/selectors';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {setSelectedNetwork} from '../../store/networks';
 import {TNetwork} from './components/Item/types';
 import {useShallowEqualSelector} from '../../store/utils';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const Networks = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,9 @@ const Networks = () => {
     },
     [toggleModal],
   );
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   return (
     <View style={styles.container}>

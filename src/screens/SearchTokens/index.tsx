@@ -4,7 +4,7 @@ import {View, TextInput, Text, Alert, FlatList} from 'react-native';
 import Header from './components/Header';
 import BasicSearchSvg from '../../assets/images/basic-search.svg';
 import Item from './components/Item';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {makeSelectSearchTokenList} from '../../store/userWallet/selectors';
 import {ERootStackRoutes, TNavigationProp} from '../../routes/types';
 import {getNetworkParams} from '../../utils/networkHelpers';
@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import {setSelectedToken} from '../../store/userWallet';
 import {useDispatch} from 'react-redux';
 import {getPact} from '../../api/kadena/pact';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
 
 const SearchTokens = () => {
   const navigation =
@@ -30,6 +31,9 @@ const SearchTokens = () => {
     item?.includes(search),
   );
   const [loadingItem, setLoadingItem] = useState<string>('');
+
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const handlePressItem = useCallback(
     (item: string) => async () => {
@@ -106,6 +110,7 @@ const SearchTokens = () => {
           <TextInput
             style={styles.input}
             placeholder="Search token"
+            placeholderTextColor={'grey'}
             value={search}
             autoCorrect={false}
             autoCapitalize="none"
@@ -113,16 +118,19 @@ const SearchTokens = () => {
             onChangeText={setSearch}
           />
         </View>
-        <FlatList
-          keyboardDismissMode="on-drag"
-          showsVerticalScrollIndicator={false}
-          style={styles.contactsWrapper}
-          data={filteredList}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          ListEmptyComponent={emptyView}
-          contentContainerStyle={styles.contactsContent}
-        />
+        {filteredList.length > 0 ? (
+          <FlatList
+            keyboardDismissMode="on-drag"
+            showsVerticalScrollIndicator={false}
+            style={styles.contactsWrapper}
+            data={filteredList}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+            ListEmptyComponent={emptyView}
+            contentContainerStyle={styles.contactsContent}
+            removeClippedSubviews={false}
+          />
+        ) : null}
       </View>
     </View>
   );

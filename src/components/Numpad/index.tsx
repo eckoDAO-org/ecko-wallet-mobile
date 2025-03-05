@@ -7,7 +7,10 @@ import {
   Easing,
   Alert,
 } from 'react-native';
-import ReactNativeBiometrics, {BiometryType} from 'react-native-biometrics';
+import ReactNativeBiometrics, {
+  BiometryType,
+  BiometryTypes,
+} from 'react-native-biometrics';
 import {useDispatch, useSelector} from 'react-redux';
 import {styles} from './styles';
 import FaceIdSvg from '../../assets/images/face-id.svg';
@@ -28,6 +31,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ERootStackRoutes} from '../../routes/types';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {isAllCharactersSame} from '../../utils/stringHelpers';
+const rnBiometrics = new ReactNativeBiometrics();
 
 const Numpad: FC<TNumpadProps> = ({isReset}) => {
   const dispatch = useDispatch();
@@ -100,15 +104,19 @@ const Numpad: FC<TNumpadProps> = ({isReset}) => {
   }, [dispatch]);
 
   const promptBiometricAuth = useCallback(
-    (noRedirect?: boolean) => {
-      ReactNativeBiometrics.simplePrompt({promptMessage: 'Authentication'})
-        .then(resultObject => {
-          const {success} = resultObject;
-          if (!noRedirect && success) {
-            auth();
-          }
-        })
-        .catch(() => {});
+    async (noRedirect?: boolean) => {
+      try {
+        const {success} = await rnBiometrics.createSignature({
+          promptMessage: 'Authentication',
+          payload: 'login',
+        });
+
+        if (!noRedirect && success) {
+          auth();
+        }
+      } catch (error) {
+        console.error('Biometric auth error:', error);
+      }
     },
     [auth],
   );
@@ -193,6 +201,12 @@ const Numpad: FC<TNumpadProps> = ({isReset}) => {
     }
   }, [storedPinCode, isReset, promptBiometricAuth, biometryType]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(setNewPinCode(null));
+    };
+  }, []);
+
   return (
     <Animated.View
       style={[
@@ -229,10 +243,10 @@ const Numpad: FC<TNumpadProps> = ({isReset}) => {
             activeOpacity={0.8}
             style={[styles.numberWrapper, styles.noBorder]}
             onPress={handlePressBiometricAuth}>
-            {biometryType === ReactNativeBiometrics.FaceID ? (
+            {biometryType === BiometryTypes.FaceID ? (
               <FaceIdSvg width="40" height="40" />
-            ) : biometryType === ReactNativeBiometrics.TouchID ||
-              biometryType === ReactNativeBiometrics.Biometrics ? (
+            ) : biometryType === BiometryTypes.TouchID ||
+              biometryType === BiometryTypes.Biometrics ? (
               <FingerIdSvg width="56" height="56" />
             ) : null}
           </TouchableOpacity>

@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import Header from './components/Header';
-import {styles} from './styles';
+import {createStyles} from './styles';
 import {headerTabs} from './const';
 import PairingItem from './components/PairingItem';
 import SessionItem from './components/SessionItem';
@@ -19,6 +19,8 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import WalletConnectInfoModal from '../../components/WalletConnectInfoModal';
 import Modal from '../../components/Modal';
 import {useWalletConnectContext} from '../../contexts';
+import {useSafeAreaValues} from '../../utils/deviceHelpers';
+import {TSessionItem} from './components/SessionItem/types';
 
 const Connection = () => {
   const navigation = useNavigation<TNavigationProp<ERootStackRoutes.Home>>();
@@ -38,6 +40,8 @@ const Connection = () => {
       ? Object.values(web3WalletClient?.getActiveSessions())
       : [],
   );
+  const {bottomSpace, statusBarHeight} = useSafeAreaValues();
+  const styles = createStyles({bottomSpace, statusBarHeight});
 
   const pairings = useMemo(
     () =>
@@ -179,7 +183,7 @@ const Connection = () => {
   }, []);
 
   const renderItem = useCallback(
-    ({item}) => {
+    ({item}: {item: TSessionItem}) => {
       if (isSessionsTab) {
         return (
           <SessionItem item={item} onDelete={() => onDeleteSession(item)} />
@@ -193,7 +197,7 @@ const Connection = () => {
     [isSessionsTab, onDeletePairing, onDeleteSession],
   );
 
-  const keyExtractor = useCallback(item => {
+  const keyExtractor = useCallback((item: TSessionItem) => {
     return `${item.topic}-${item.type}`;
   }, []);
 
